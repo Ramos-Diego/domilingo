@@ -1,0 +1,3 @@
+type DbConnection = {
+  isConnected: number
+}

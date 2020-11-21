@@ -1,18 +1,17 @@
 import Head from 'next/head'
 import { signIn, signOut, useSession } from 'next-auth/client'
 import Button from '../components/Button'
-import Body from '../components/Body'
 
 export default function Home() {
   const [session] = useSession()
 
   return (
-    <Body>
+    <>
       <Head>
         <title>Dominilingo</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="flex justify-center">
+      <div className="flex justify-center mt-4">
         {!session && (
           <div>
             {/* If the sign in function has no parameters it will show a login */}
@@ -31,6 +30,6 @@ export default function Home() {
           </div>
         )}
       </div>
-    </Body>
+    </>
   )
 }

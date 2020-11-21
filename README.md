@@ -8,7 +8,7 @@ A dictionary of Dominican slang.
 
 - [x] Login using OAuth/JWT (ADMIN/USERS)
 - [x] Add TailwindCSS
-- [ ] Create database Schema and indexes
+- [x] Create database Schema and indexes
 - [ ] Index page shows words in alphabetical ascending order
 - [ ] On Index page add option to display words by letter, trending, alphabetical descending order
 - [ ] Show word of the day
