@@ -1,23 +1,27 @@
-import dbConnect from './dbConnect'
-import Word from '../models/Word'
+import { connectToDatabase } from './mongodb'
 
-export const getWords = async () => {
-  await dbConnect()
+export const test = async () => {
+  const { db } = await connectToDatabase()
 
-  const data = await Word.find({})
+  const result = await db.collection('test').insertOne({
+    word: 'client side',
+    createdAt: new Date(),
+  })
 
-  return JSON.stringify(data)
+  // const isConnected = await db.isConnected() // Returns true or false
+  console.log({ result })
 }
 
-export const postWord = async (word: string) => {
-  await dbConnect()
+export const getWords = async () => {
+  const { db } = await connectToDatabase()
 
-  const newWord = new Word(word)
-
-  const result = await newWord.save((err) => {
-    if (err) return console.log('error')
-    return 'success'
-  })
+  const result = await db
+    .collection('words')
+    .find({})
+    // Collation allows for case insentive sorting
+    .collation({ locale: 'en' })
+    .sort({ word: 1 })
+    .toArray()
 
   return JSON.stringify(result)
 }

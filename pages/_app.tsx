@@ -1,6 +1,6 @@
 import { AppProps } from 'next/app'
 import { Provider } from 'next-auth/client'
-import '../styles/index.css'
+import '../styles/tailwind.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
