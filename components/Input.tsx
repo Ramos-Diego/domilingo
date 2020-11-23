@@ -4,6 +4,8 @@ export default function Input({
   name,
   placeholder,
   register,
+  defaultValue,
+  hide,
 }: {
   type: string
   label?: string
@@ -11,12 +13,14 @@ export default function Input({
   placeholder?: string
   // Info about this type here: https://react-hook-form.com/api/#register
   register: (Ref, validateRule?) => void
+  defaultValue?: string | number
+  hide?: boolean
 }) {
   // The Input component changes based on the type
   return (
     <>
       {type === 'text' && (
-        <>
+        <div className={hide ? 'hidden' : ''}>
           {label && (
             <label className="font-bold" htmlFor={name}>
               {label}
@@ -28,11 +32,12 @@ export default function Input({
             name={name}
             placeholder={placeholder}
             ref={register}
+            defaultValue={defaultValue}
           />
-        </>
+        </div>
       )}
       {type === 'textarea' && (
-        <>
+        <div className={hide ? 'hidden' : ''}>
           <label className="font-bold" htmlFor={name}>
             {label}
           </label>
@@ -42,8 +47,9 @@ export default function Input({
             placeholder={placeholder}
             ref={register}
             rows={4}
+            defaultValue={defaultValue}
           ></textarea>
-        </>
+        </div>
       )}
     </>
   )

@@ -1,12 +1,15 @@
 import { AppProps } from 'next/app'
 import { Provider } from 'next-auth/client'
+import { GlobalProvider } from '../context/GlobalState'
 import '../styles/tailwind.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <Provider session={pageProps.session}>
+    <GlobalProvider>
+      <Provider session={pageProps.session}>
         <Component {...pageProps} />
-    </Provider>
+      </Provider>
+    </GlobalProvider>
   )
 }
 
