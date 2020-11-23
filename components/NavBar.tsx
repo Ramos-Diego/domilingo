@@ -3,15 +3,18 @@ import Button from '../components/Button'
 import A from '../components/A'
 import { useRouter } from 'next/router'
 import Search from './Search'
+import { FaBookOpen } from 'react-icons/fa'
 
 export default function NavBar() {
   const router = useRouter()
   const [session] = useSession()
 
   return (
-    <div className="flex gap-3 bg-gray-800 place-items-center py-2 px-3 mb-4">
-      <div className="flex-auto">DOMINILINGO</div>
-      {router.pathname === '/' && <Search/>}
+    <div className="flex gap-3 place-items-center bg-gray-800  py-2 px-3 mb-4">
+      <div className="flex-auto">
+        <FaBookOpen className="text-red-500 inline" /> DOMINILINGO
+      </div>
+      {router.pathname === '/' && <Search />}
       {!session && (
         <div>
           {/* If the sign in function has no parameters it will show a login */}

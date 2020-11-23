@@ -8,7 +8,11 @@ module.exports = {
       ...colors,
       gray: colors.trueGray,
     },
-    extend: {},
+    extend: {
+      gridTemplateRows: {
+        hamburger: 'auto 1fr auto',
+      },
+    },
   },
   variants: {
     extend: {},

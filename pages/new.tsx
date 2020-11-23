@@ -3,6 +3,7 @@ import Button from '../components/Button'
 import Form from '../components/Form'
 import Input from '../components/Input'
 import Alert from '../components/Alert'
+import Center from '../components/Center'
 import { useForm } from 'react-hook-form'
 import NavBar from '../components/NavBar'
 import { useSession } from 'next-auth/client'
@@ -35,7 +36,7 @@ export default function New() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <NavBar />
-      <div className="contianer mx-auto max-w-lg px-2">
+      <Center max="sm" styles="px-2">
         <p className="font-sans text-xl font-bold text-center mb-4 uppercase">Add a word to the dictionary</p>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Input
@@ -54,9 +55,16 @@ export default function New() {
             placeholder="Enter definition"
           />
           {errors.definition && <Alert message="The definition is required" />}
+          <Input
+            type="text"
+            label="Example sentence"
+            name="example"
+            register={register}
+            placeholder="Enter sentence"
+          />
           <Button>Submit</Button>
         </Form>
-      </div>
+      </Center>
     </>
   )
 }

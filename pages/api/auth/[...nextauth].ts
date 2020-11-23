@@ -2,11 +2,15 @@ import NextAuth, { InitOptions, User } from 'next-auth'
 import Providers from 'next-auth/providers'
 import { SessionBase } from 'next-auth/_utils'
 import { NextApiHandler } from 'next'
+import { GetUserOrSaveNewUser } from '../../../utils/dbFunctions'
 
 // The User data type must match any modifications
 // in the JWT callback.
 interface myUser extends User {
-  uid: string
+  dominilingo: {
+    uid: string | number
+    role: string
+  }
 }
 
 const options: InitOptions = {
@@ -23,20 +27,26 @@ const options: InitOptions = {
   callbacks: {
     /**
      * @param  {object}  token     Decrypted JSON Web Token
-     * @param  {object}  user      User object      (only available on sign in)
+     * @param  {object}  _user      User object      (only available on sign in)
      * @param  {object}  account   Provider account (only available on sign in)
      * @param  {object}  profile   Provider profile (only available on sign in)
      * @param  {boolean} isNewUser True if new user (only available on sign in)
      * @return {object}            JSON Web Token that will be saved
      */
-    jwt: async (token, user, account, profile, isNewUser) => {
+    jwt: async (token, _user, account, profile, isNewUser) => {
+      // This function only runs when the user logs in
+      // becuase that's the only time the profile object exists
+      const user = await GetUserOrSaveNewUser(profile)
+
       // Attach the profile information provided to the JWT token
       // https://github.com/nextauthjs/next-auth/issues/649
 
       // This will be true only when the user logs in.
       // Use this statement to add any information neede in the JWT
       // May use the profile.id to query database and get user's permissions
-      if (!token.uid) token.uid = profile.id
+      if (!token.dominilingo) {
+        token.dominilingo = user.dominilingo
+      }
 
       return Promise.resolve(token)
     },
@@ -52,7 +62,7 @@ const options: InitOptions = {
         ...session,
         user: {
           ...session.user,
-          uid: user.uid,
+          dominilingo: user.dominilingo,
         },
       })
     },
