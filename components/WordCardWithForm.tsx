@@ -70,7 +70,7 @@ export default function WordCardWithForm({ word }: { word: any }) {
       >
         <Hide invert word={word.word}>
           <div className="text-lg font-extrabold overflow-x-auto">
-            <Link href={`/d/${word.word}`}>
+            <Link href={`/d/${word.slug}`}>
               <a className="hover:text-blue-400">{word.word}</a>
             </Link>
           </div>
@@ -114,7 +114,7 @@ export default function WordCardWithForm({ word }: { word: any }) {
                         name="example"
                         register={register}
                         placeholder="Enter sentence"
-                        defaultValue={item.definition}
+                        defaultValue={example}
                       />
                     </Hide>
                   </div>

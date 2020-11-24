@@ -1,6 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { updateWord, deleteWord, createWord } from '../../utils/dbFunctions'
+import {
+  updateWord,
+  deleteWord,
+  createWord,
+  getOneWord,
+} from '../../utils/dbFunctions'
 import jwt from 'next-auth/jwt'
+import { CONNREFUSED } from 'dns'
 
 const secret = process.env.JWT_SECRET
 
@@ -19,7 +25,10 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     // Signed in
     if (req.method === 'POST') {
       try {
-        const result = await createWord(req.body, token)
+        const confirmation = await createWord(req.body, token)
+
+        const result = await getOneWord(confirmation.insertedId)
+        console.log({ result })
 
         res.status(201)
         res.json({ success: true, result })

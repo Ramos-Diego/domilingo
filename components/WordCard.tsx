@@ -24,7 +24,7 @@ export default function WordCard({
         ) : (
           <>
             <div className="text-lg font-extrabold overflow-x-auto">
-              <Link href={`/d/${item.word}`}>
+              <Link href={`/d/${item.slug}`}>
                 <a className="hover:text-blue-400">{item.word}</a>
               </Link>
             </div>

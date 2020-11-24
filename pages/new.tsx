@@ -24,10 +24,10 @@ export default function New() {
         body: JSON.stringify(data),
       })
       const resData = await response.json()
-      console.log(resData) // parses JSON response into native JavaScript objects
+      console.log(resData.result.slug) // parses JSON response into native JavaScript objects
       router.push({
-        pathname: '/d/[word]',
-        query: { word: data.word },
+        pathname: '/d/[slug]',
+        query: { slug: resData.result.slug },
       })
       return resData
     } else {

@@ -1,16 +1,5 @@
 import { connectToDatabase } from './mongodb'
-
-export const test = async () => {
-  const { db } = await connectToDatabase()
-
-  const result = await db.collection('test').insertOne({
-    word: 'client side',
-    createdAt: new Date(),
-  })
-
-  // const isConnected = await db.isConnected() // Returns true or false
-  console.log({ result })
-}
+import slugify from 'slugify'
 
 export const getWords = async () => {
   const { db } = await connectToDatabase()
@@ -26,21 +15,29 @@ export const getWords = async () => {
   return JSON.stringify(result)
 }
 
-export const getAllWords = async () => {
+export const getOneWord = async (_id: string) => {
+  const { db } = await connectToDatabase()
+
+  const result = await db.collection('words').findOne({ _id })
+
+  return result
+}
+
+export const getAllSlugs = async () => {
   const { db } = await connectToDatabase()
 
   const result = await db
     .collection('words')
-    .aggregate([{ $project: { _id: 0, word: 1 } }])
+    .aggregate([{ $project: { _id: 0, slug: 1 } }])
     .toArray()
 
   return JSON.stringify(result)
 }
 
-export const getWordData = async (word: string | string[] | undefined) => {
+export const getWordData = async (slug: string | string[] | undefined) => {
   const { db } = await connectToDatabase()
 
-  const result = await db.collection('words').findOne({ word })
+  const result = await db.collection('words').findOne({ slug })
 
   return JSON.stringify(result)
 }
@@ -70,6 +67,7 @@ export const createWord = async (obj: any, token: any) => {
 
   const wordSchema = {
     word: obj.word,
+    slug: slugify(obj.word),
     definitions: [{ definition: obj.definition, examples: [obj.example] }],
     uid: token.dominilingo.uid,
   }
@@ -78,6 +76,7 @@ export const createWord = async (obj: any, token: any) => {
 
   return result
 }
+
 // Todo: remove any type
 export const updateWord = async (word: string, obj: any) => {
   const { db } = await connectToDatabase()
