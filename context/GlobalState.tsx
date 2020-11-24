@@ -3,6 +3,7 @@ import AppReducer from './AppReducer'
 
 const initialState: State = {
   word: '',
+  deleted: [],
   edit: false,
 }
 

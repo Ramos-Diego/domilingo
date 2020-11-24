@@ -4,13 +4,8 @@ import { getWords } from '../utils/dbFunctions'
 import NavBar from '../components/NavBar'
 import Center from '../components/Center'
 import WordCard from '../components/WordCard'
-import { useContext } from 'react'
-import { GlobalContext } from '../context/GlobalState'
-import Button from '../components/Button'
 
 export default function Home({ words }) {
-  const { state, dispatch } = useContext(GlobalContext)
-
   return (
     <>
       <NavBar />
@@ -29,7 +24,7 @@ export default function Home({ words }) {
   )
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getStaticProps: GetStaticProps = async () => {
   const words = JSON.parse(await getWords())
 
   return { props: { words } }

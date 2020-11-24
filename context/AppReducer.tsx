@@ -4,9 +4,27 @@
 const AppReducer = (state: State, action: Actions) => {
   switch (action.type) {
     case 'EDIT':
+      if (state.edit && action.word !== state.word) {
+        return {
+          ...state,
+          word: action.word,
+        }
+      } else {
+        return {
+          ...state,
+          edit: !state.edit,
+          word: action.word,
+        }
+      }
+    case 'USE_EFFECT':
       return {
         ...state,
-        edit: !state.edit,
+        edit: false,
+      }
+    case 'DELETE':
+      return {
+        ...state,
+        delete: state.deleted.push(action.word),
       }
     default:
       return state

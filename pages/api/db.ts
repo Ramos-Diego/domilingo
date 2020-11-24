@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { connectToDatabase } from '../../utils/mongodb'
+import { updateWord, deleteWord, createWord } from '../../utils/dbFunctions'
 import jwt from 'next-auth/jwt'
 
 const secret = process.env.JWT_SECRET
@@ -17,24 +17,39 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 
   if (token) {
     // Signed in
-    try {
-      const { db } = await connectToDatabase()
+    if (req.method === 'POST') {
+      try {
+        const result = await createWord(req.body, token)
 
-      const wordSchema = {
-        word: req.body.word,
-        definitions: [
-          { definition: req.body.definition, examples: [req.body.example] },
-        ],
-        uid: token.dominilingo.uid
+        res.status(201)
+        res.json({ success: true, result })
+      } catch (e) {
+        res.status(500)
+        res.json({ success: false })
       }
+    } else if (req.method === 'PATCH') {
+      try {
+        const result = await updateWord(req.body.word, req.body)
 
-      const result = await db.collection('words').insertOne(wordSchema)
+        res.status(201)
+        res.json({ success: true, result })
+      } catch (e) {
+        res.status(500)
+        res.json({ success: false })
+      }
+    } else if (req.method === 'DELETE') {
+      try {
+        const result = await deleteWord(req.body.word)
 
-      res.status(201)
-      res.json({ success: true, result })
-    } catch (e) {
-      res.status(500)
-      res.json({ success: false })
+        res.status(201)
+        res.json({ success: true, result })
+      } catch (e) {
+        res.status(500)
+        res.json({ success: false })
+      }
+    } else {
+      // Bad request
+      res.status(400)
     }
   } else {
     // Not Signed in

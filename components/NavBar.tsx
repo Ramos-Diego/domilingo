@@ -4,10 +4,11 @@ import A from '../components/A'
 import { useRouter } from 'next/router'
 import Search from './Search'
 import { FaBookOpen } from 'react-icons/fa'
+import { ExtendedSession } from '../types'
 
 export default function NavBar() {
   const router = useRouter()
-  const [session] = useSession()
+  const [session]: [ExtendedSession, boolean] = useSession()
 
   return (
     <div className="flex gap-3 place-items-center bg-gray-800  py-2 px-3 mb-4">
@@ -29,7 +30,11 @@ export default function NavBar() {
             alt={session.user.name}
             className="w-8 h-8 rounded-full"
           />
-          <div>{session.user.name}</div>
+          {router.asPath === `/${session.user.dominilingo.uid}` ? (
+            <div>{session.user.name}</div>
+          ) : (
+            <A href={`/${session.user.dominilingo.uid}`}>{session.user.name}</A>
+          )}
           {/* <code>
         <pre className="mb-5">{JSON.stringify(session, null, 2)}</pre>
       </code> */}

@@ -12,6 +12,8 @@ A dictionary of Dominican slang.
 - [x] Index page shows words sorted alphabetically
 - [x] Add a word to the database
 - [x] Persist custom user data in database (id/roles)
+- [ ] Allow users to create a username
+- [ ] Generate slugs for word paths (/d/[word])
 - [ ] Add option to display words by letter, trending, alphabetical descending order
 - [ ] Show word of the day
 - [ ] Add search by word
