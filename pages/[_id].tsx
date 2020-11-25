@@ -27,19 +27,23 @@ export default function uid({ words }: { words: Word[] }) {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   // Get all the ids for all the public officials in the database
-  const uids: { uid: string }[] = JSON.parse(await getUserIds())
+  const _ids: { _id: string }[] = JSON.parse(await getUserIds())
 
   // Convert result array into the appropiate type of array for
   // Next.js getStaticPaths function
-  const paths = uids.map(({ uid }) => ({
-    params: { uid },
+  const paths = _ids.map(({ _id }) => ({
+    params: { _id },
   }))
 
   return { paths, fallback: false }
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const words = JSON.parse(await getUserWords(params?.uid))
+export const getStaticProps: GetStaticProps = async ({
+  params: { _id },
+}: {
+  params: { _id: string }
+}) => {
+  const words = JSON.parse(await getUserWords(_id))
 
   return { props: { words } }
 }

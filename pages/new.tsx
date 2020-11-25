@@ -9,6 +9,7 @@ import NavBar from '../components/NavBar'
 import { useSession } from 'next-auth/client'
 import { useRouter } from 'next/router'
 import { NewWordForm } from '../lib/data-types'
+import { createWordFetch } from '../utils/client'
 
 export default function New() {
   const { register, handleSubmit, errors } = useForm()
@@ -19,20 +20,6 @@ export default function New() {
 
   if (!session) {
     return <div>You must be logged in to submit a new word.</div>
-  }
-
-  const onSubmit = async (data: NewWordForm) => {
-    const response = await fetch('/api/db', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-    if (response.ok) {
-      const body = await response.json()
-      router.push(`/d/${body.slug}`)
-    }
   }
 
   return (
@@ -46,7 +33,11 @@ export default function New() {
         <p className="font-sans text-xl font-bold text-center mb-4 uppercase">
           Add a word to the dictionary
         </p>
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form
+          onSubmit={handleSubmit(async (data: NewWordForm) => {
+            createWordFetch(session, router, data)
+          })}
+        >
           <Input
             type="text"
             label="Word"

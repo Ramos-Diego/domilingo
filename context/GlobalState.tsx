@@ -3,7 +3,7 @@ import AppReducer from './AppReducer'
 import { State, GlobalContextType } from '../lib/data-types'
 
 const initialState: State = {
-  word: '',
+  wordId: '',
   dropdownMenu: false,
   deleted: [],
   edit: false,

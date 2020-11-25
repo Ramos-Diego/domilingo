@@ -28,7 +28,7 @@ const options: InitOptions = {
     jwt: async (token, _user, account, profile, isNewUser) => {
       // This function only runs when the user logs in
       // becuase that's the only time the profile object exists
-      const user = await GetUserOrSaveNewUser(profile)
+      const userFromDB = await GetUserOrSaveNewUser(profile)
 
       // Attach the profile information provided to the JWT token
       // https://github.com/nextauthjs/next-auth/issues/649
@@ -37,8 +37,10 @@ const options: InitOptions = {
       // Use this statement to add any information neede in the JWT
       // May use the profile.id to query database and get user's permissions
       if (!token.dominilingo) {
-        // Todo: Put _id
-        token.dominilingo = user.dominilingo
+        token.dominilingo = {
+          _id: userFromDB._id,
+          role: userFromDB.dominilingo.role,
+        }
       }
 
       return Promise.resolve(token)
@@ -49,13 +51,12 @@ const options: InitOptions = {
      *                               JSON Web Token (if not using database sessions)
      * @return {object}              Session that will be returned to the client
      */
-    session: async (session: SessionBase, user: SessionUser) => {
-      // The user gets its data from the token in the JWT callback
+    session: async (session: SessionBase, jwt: SessionUser) => {
       return Promise.resolve({
         ...session,
         user: {
           ...session.user,
-          dominilingo: user.dominilingo,
+          dominilingo: jwt.dominilingo,
         },
       })
     },

@@ -1,8 +1,8 @@
-import { State, Actions } from '../lib/data-types'
+import { State } from '../lib/data-types'
 // The 'state' parameter for the useReducer function
 // is the current state. The action is a function that gets
 // called to update the state.
-const AppReducer = (state: State, action: Actions) => {
+const AppReducer = (state: State, action: any) => {
   switch (action.type) {
     case 'EDIT':
       if (state.edit && action._id !== state.wordId) {

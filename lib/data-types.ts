@@ -1,9 +1,8 @@
 import React from 'react'
-import { ObjectId } from 'mongodb'
 import { Session } from 'next-auth/client'
 
 export interface Word {
-  _id: ObjectId
+  _id: string
   word: string
   definitions: [
     {
@@ -12,7 +11,7 @@ export interface Word {
     }
   ]
   created: Date
-  createdBy: ObjectId
+  createdBy: string
   slug: string
   approved: boolean
   updated?: Date
@@ -26,7 +25,7 @@ export interface Word {
 }
 
 export interface DominilingoUser {
-  _id: ObjectId
+  _id: string
   role: 'admin' | 'user'
 }
 
@@ -34,7 +33,7 @@ export interface SessionUser {
   name?: string | null
   email?: string | null
   image?: string | null
-  dominilingo?: DominilingoUser
+  dominilingo: DominilingoUser
 }
 
 export type ExtendedUseSession = [
@@ -52,15 +51,15 @@ export type GlobalContextType = {
 }
 
 export type State = {
-  wordId: ObjectId
+  wordId: string
   edit: boolean
-  deleted: ObjectId[]
+  deleted: string[]
   dropdownMenu: boolean
 }
 
 export type Actions = {
   type: 'EDIT' | 'USE_EFFECT' | 'DELETE' | 'DROPDOWN'
-  _id?: ObjectId
+  _id?: string
 }
 
 export type EditWordForm = {

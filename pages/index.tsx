@@ -16,8 +16,8 @@ export default function Home({ words }: { words: Word[] }) {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <div className="grid justify-center sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {words.map((item, idx) => {
-            return <WordCard word={item} key={idx} />
+          {words.map((word, idx) => {
+            return <WordCard word={word} key={idx} />
           })}
         </div>
       </Center>

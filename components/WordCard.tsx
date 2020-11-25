@@ -3,8 +3,10 @@ import WordCardWithForm from '../components/WordCardWithForm'
 import HideIfDeleted from '../components/HideIfDeleted'
 import { ExtendedUseSession, Word } from '../lib/data-types'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 export default function WordCard({ word }: { word: Word }) {
+  const router = useRouter()
   const [session]: ExtendedUseSession = useSession()
 
   // This component returns two different types of word cards.
@@ -19,9 +21,13 @@ export default function WordCard({ word }: { word: Word }) {
         ) : (
           <>
             <div className="text-lg font-extrabold overflow-x-auto">
-              <Link href={`/d/${word.slug}`}>
-                <a className="hover:text-blue-400">{word.word}</a>
-              </Link>
+              {router.asPath !== `/d/${word.slug}` ? (
+                <Link href={`/d/${word.slug}`}>
+                  <a className="hover:text-blue-400">{word.word}</a>
+                </Link>
+              ) : (
+                <>{word.word}</>
+              )}
             </div>
             <div>
               {word.definitions.map((item, idx) => {
@@ -43,10 +49,6 @@ export default function WordCard({ word }: { word: Word }) {
             </div>
           </>
         )}
-        {/* <div className="grid gap-x-2 grid-flow-col">
-      <div className="bg-purple-900 px-2 text-center rounded">Synonyms</div>
-      <div className="bg-purple-900 px-2 text-center rounded">Antonyms</div>
-    </div> */}
       </div>
     </HideIfDeleted>
   )

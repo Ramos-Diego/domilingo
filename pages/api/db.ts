@@ -32,7 +32,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       // Case when admin approves one word
       if (req.body.approval) {
         try {
-          const result = await approveOneWord(req.body.word)
+          const result = await approveOneWord(req.body._id)
 
           res.status(201)
           res.json({ success: true, result })
@@ -42,7 +42,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         }
       } else {
         try {
-          const result = await updateWord(req.body.word, req.body)
+          const result = await updateWord(req.body._id, req.body)
 
           res.status(201)
           res.json({ success: true, result })
@@ -53,7 +53,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       }
     } else if (req.method === 'DELETE') {
       try {
-        const result = await deleteWord(req.body.word)
+        const result = await deleteWord(req.body._id)
 
         res.status(201)
         res.json({ success: true, result })

@@ -1,6 +1,7 @@
 import { connectToDatabase } from './mongodb'
 import { ObjectId } from 'mongodb'
 import slugify from 'slugify'
+import { EditWordForm, NewWordForm, Word, SessionUser } from '../lib/data-types'
 
 export const getApprovedWords = async () => {
   const { db } = await connectToDatabase()
@@ -46,7 +47,7 @@ export const approveOneWord = async (_id: ObjectId) => {
   return result
 }
 
-export const getOneWord = async (_id: ObjectId) => {
+export const getOneWord = async (_id: string) => {
   const { db } = await connectToDatabase()
 
   const result = await db
@@ -75,13 +76,13 @@ export const getWordData = async (slug: string | string[] | undefined) => {
   return JSON.stringify(result)
 }
 
-export const getUserWords = async (_id: string | string[] | undefined) => {
+export const getUserWords = async (_id: string) => {
   const { db } = await connectToDatabase()
 
   const result = await db
     .collection('words')
     // Todo: check this
-    .find({ _id: new ObjectId(_id && _id[0]) })
+    .find({ createdBy: _id })
     .toArray()
 
   return JSON.stringify(result)
@@ -92,22 +93,24 @@ export const getUserIds = async () => {
 
   const result = await db
     .collection('users')
-    .aggregate([{ $project: { _id: 0, uid: '$dominilingo.uid' } }])
+    .aggregate([{ $project: { _id: 1 } }])
     .toArray()
 
   return JSON.stringify(result)
 }
 
 // Todo: remove any type
-export const createWord = async (obj: any, token: any) => {
+export const createWord = async (obj: NewWordForm, token: SessionUser) => {
   const { db } = await connectToDatabase()
 
+  //Todo: Create a type for this
   const wordSchema = {
     word: obj.word,
     slug: slugify(obj.word),
     approved: false,
     definitions: [{ definition: obj.definition, examples: [obj.example] }],
-    uid: token.dominilingo.uid,
+    createdBy: new ObjectId(token.dominilingo._id),
+    created: Date.now(),
   }
 
   const result = await db.collection('words').insertOne(wordSchema)
@@ -116,7 +119,7 @@ export const createWord = async (obj: any, token: any) => {
 }
 
 // Todo: remove any type
-export const updateWord = async (_id: string, obj: any) => {
+export const updateWord = async (_id: string, obj: EditWordForm) => {
   const { db } = await connectToDatabase()
 
   // Todo: make array selections dynamic

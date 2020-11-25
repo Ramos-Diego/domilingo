@@ -7,10 +7,12 @@ export default function Search() {
   const test = ['abc', 'ert']
 
   // Todo: This search filter doesn't work.
-  const search = async ({ search }) => {
+  const search = async ({ search }: { search: string }) => {
     const result = test
       .filter((word) => word.includes(search))
-      .map((filtered) => {filtered})
+      .map((filtered) => {
+        filtered
+      })
     console.log({ result })
   }
 

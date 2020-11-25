@@ -1,22 +1,17 @@
 import { useContext } from 'react'
 import { GlobalContext } from '../context/GlobalState'
-import { ObjectId } from 'mongodb'
 
 export default function Hide({
   _id,
   children,
 }: {
-  _id: ObjectId
+  _id: string
   children: React.ReactNode
 }) {
   const { state } = useContext(GlobalContext)
 
   return (
-    <div
-      className={
-        state.deleted.includes(new ObjectId(_id).toString()) ? 'hidden' : ''
-      }
-    >
+    <div className={state.deleted.includes(_id) ? 'hidden' : ''}>
       {children}
     </div>
   )

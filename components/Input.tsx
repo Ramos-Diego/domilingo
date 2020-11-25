@@ -12,7 +12,7 @@ export default function Input({
   name: string
   placeholder?: string
   // Info about this type here: https://react-hook-form.com/api/#register
-  register: (Ref, validateRule?) => void
+  register: (Ref: any, validateRule?: any) => void
   defaultValue?: string | number
   hide?: boolean
 }) {
