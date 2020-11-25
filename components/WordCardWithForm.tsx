@@ -1,21 +1,22 @@
 import { useForm } from 'react-hook-form'
 import Button from './Button'
-import Input from '../components/Input'
-import Hide from '../components/Hide'
+import Input from './Input'
+import Hide from './Hide'
 import Link from 'next/link'
 import { useContext } from 'react'
 import { GlobalContext } from '../context/GlobalState'
 import { useEffect } from 'react'
 import { useSession } from 'next-auth/client'
 import { useRouter } from 'next/router'
+import { Word, EditWordForm } from '../lib/data-types'
 
-export default function WordCardWithForm({ word }: { word: any }) {
+export default function WordCardWithForm({ word }: { word: Word }) {
   const { register, handleSubmit, errors } = useForm()
   const { state, dispatch } = useContext(GlobalContext)
   const [session] = useSession()
   const router = useRouter()
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: EditWordForm) => {
     if (session) {
       const response = await fetch('/api/db', {
         method: 'PATCH',
@@ -76,7 +77,7 @@ export default function WordCardWithForm({ word }: { word: any }) {
       type: 'USE_EFFECT',
     })
     // Return cleanup function
-    return () => null
+    // return null
   }, [])
 
   return (
@@ -149,7 +150,7 @@ export default function WordCardWithForm({ word }: { word: any }) {
           onClick={() =>
             dispatch({
               type: 'EDIT',
-              word: word.word,
+              _id: word._id,
             })
           }
         >
@@ -159,7 +160,7 @@ export default function WordCardWithForm({ word }: { word: any }) {
           onClick={() => {
             dispatch({
               type: 'DELETE',
-              word: word.word,
+              _id: word._id,
             })
             deleteWordFetch(word.word)
           }}

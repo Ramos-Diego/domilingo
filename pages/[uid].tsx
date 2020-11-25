@@ -1,33 +1,12 @@
 import Head from 'next/head'
 import Center from '../components/Center'
 import WordCard from '../components/WordCard'
-import { useForm } from 'react-hook-form'
 import NavBar from '../components/NavBar'
-import { useSession } from 'next-auth/client'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { getUserWords, getUserIds } from '../utils/dbFunctions'
+import { Word } from '../lib/data-types'
 
-export default function New({ words }) {
-  const { register, handleSubmit, errors } = useForm()
-  const [session] = useSession()
-
-  const onSubmit = async (data) => {
-    if (session) {
-      const response = await fetch('/api/db', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-      const resData = await response.json()
-      console.log(resData) // parses JSON response into native JavaScript objects
-      return resData
-    } else {
-      alert('you must be logged in to submit a word.')
-    }
-  }
-
+export default function uid({ words }: { words: Word[] }) {
   return (
     <>
       <Head>
@@ -38,7 +17,7 @@ export default function New({ words }) {
       <Center max="sm" styles="px-2">
         <div className="grid justify-center sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {words.map((item, idx) => {
-            return <WordCard item={item} key={idx} />
+            return <WordCard word={item} key={idx} />
           })}
         </div>
       </Center>

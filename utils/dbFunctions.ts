@@ -1,4 +1,5 @@
 import { connectToDatabase } from './mongodb'
+import { ObjectId } from 'mongodb'
 import slugify from 'slugify'
 
 export const getApprovedWords = async () => {
@@ -30,7 +31,7 @@ export const getUnapprovedWords = async () => {
 }
 
 // Todo: remove any type
-export const approveOneWord = async (word: string) => {
+export const approveOneWord = async (_id: ObjectId) => {
   const { db } = await connectToDatabase()
 
   // Todo: make array selections dynamic
@@ -40,15 +41,17 @@ export const approveOneWord = async (word: string) => {
 
   const result = await db
     .collection('words')
-    .updateOne({ word }, { $set: updateObject })
+    .updateOne({ _id: new ObjectId(_id) }, { $set: updateObject })
 
   return result
 }
 
-export const getOneWord = async (_id: string) => {
+export const getOneWord = async (_id: ObjectId) => {
   const { db } = await connectToDatabase()
 
-  const result = await db.collection('words').findOne({ _id })
+  const result = await db
+    .collection('words')
+    .findOne({ _id: new ObjectId(_id) })
 
   return result
 }
@@ -72,10 +75,14 @@ export const getWordData = async (slug: string | string[] | undefined) => {
   return JSON.stringify(result)
 }
 
-export const getUserWords = async (uid: string | string[] | undefined) => {
+export const getUserWords = async (_id: string | string[] | undefined) => {
   const { db } = await connectToDatabase()
 
-  const result = await db.collection('words').find({ uid }).toArray()
+  const result = await db
+    .collection('words')
+    // Todo: check this
+    .find({ _id: new ObjectId(_id && _id[0]) })
+    .toArray()
 
   return JSON.stringify(result)
 }
@@ -109,7 +116,7 @@ export const createWord = async (obj: any, token: any) => {
 }
 
 // Todo: remove any type
-export const updateWord = async (word: string, obj: any) => {
+export const updateWord = async (_id: string, obj: any) => {
   const { db } = await connectToDatabase()
 
   // Todo: make array selections dynamic
@@ -121,15 +128,17 @@ export const updateWord = async (word: string, obj: any) => {
 
   const result = await db
     .collection('words')
-    .updateOne({ word }, { $set: updateObject })
+    .updateOne({ _id: new ObjectId(_id) }, { $set: updateObject })
 
   return result
 }
 
-export const deleteWord = async (word: string) => {
+export const deleteWord = async (_id: string) => {
   const { db } = await connectToDatabase()
 
-  const result = await db.collection('words').deleteOne({ word })
+  const result = await db
+    .collection('words')
+    .deleteOne({ _id: new ObjectId(_id) })
 
   return result
 }
@@ -150,6 +159,7 @@ export const GetUserOrSaveNewUser = async (profile: {
       // Return user in order to attach custom data to the JWT/session
       return user
     } else {
+      // Todo: Get user _ids for new users
       // Save the new user
       await db.collection('users').insertOne({
         ...profile,
@@ -157,8 +167,6 @@ export const GetUserOrSaveNewUser = async (profile: {
         // Persist information about the user in the database
         dominilingo: {
           // Convert all ids to string
-          uid: `${profile.id}`,
-          // Todo: add logic form admin users
           role: 'user',
         },
       })

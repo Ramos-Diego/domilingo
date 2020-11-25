@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@types/mongodb": "^3.5.34",
     "autoprefixer": "^10.0.2",
     "mongodb": "^3.6.3",
     "next": "10.0.2",

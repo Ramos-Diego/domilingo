@@ -1,8 +1,7 @@
 import { useContext } from 'react'
 import { GlobalContext } from '../context/GlobalState'
-import { Session, signOut, useSession } from 'next-auth/client'
-import { NewUser } from '../typings/dominilingo'
-type ExtendedSession = Session & { user: NewUser }
+import { signOut, useSession } from 'next-auth/client'
+import { ExtendedSession } from '../lib/data-types'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 
@@ -30,8 +29,8 @@ export default function DropdownMenu() {
             aria-orientation="vertical"
             aria-labelledby="options-menu"
           >
-            {router.asPath !== `/${session.user.dominilingo.uid}` && (
-              <Link href={`/${session.user.dominilingo.uid}`}>
+            {router.asPath !== `/${session.user.dominilingo._id}` && (
+              <Link href={`/${session.user.dominilingo._id}`}>
                 <a className="block px-4 py-2 text-sm text-gray-100 hover:bg-gray-900 hover:text-gray-100">
                   Profile
                 </a>

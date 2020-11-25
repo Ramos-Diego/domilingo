@@ -1,17 +1,15 @@
-import { Session, signIn, signOut, useSession } from 'next-auth/client'
-import Button from '../components/Button'
+import { signIn, useSession } from 'next-auth/client'
+import { ExtendedUseSession } from '../lib/data-types'
 import { useRouter } from 'next/router'
-import Search from './Search'
 import { FaBookOpen } from 'react-icons/fa'
-import UserMenu from '../components/UserMenu'
 import Link from 'next/link'
-import { NewUser } from '../typings/dominilingo'
-
-type ExtendedSession = Session & { user: NewUser }
+import Button from './Button'
+import Search from './Search'
+import UserMenu from './UserMenu'
 
 export default function NavBar() {
   const router = useRouter()
-  const [session]: [ExtendedSession, boolean] = useSession()
+  const [session]: ExtendedUseSession = useSession()
 
   return (
     <div className="flex gap-3 place-items-center bg-gray-800  py-2 px-3 mb-4">

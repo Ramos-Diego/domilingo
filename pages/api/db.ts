@@ -8,14 +8,7 @@ import {
 } from '../../utils/dbFunctions'
 import jwt from 'next-auth/jwt'
 
-const secret = process.env.JWT_SECRET
-
-// interface myToken extends Object {
-//   dominilingo: {
-//     uid: string | number,
-//     role: string
-//   }
-// }
+const secret = process.env.JWT_SECRET || ''
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   // Todo: remove any type

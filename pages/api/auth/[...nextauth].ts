@@ -1,23 +1,15 @@
-import NextAuth, { InitOptions, User } from 'next-auth'
+import NextAuth, { InitOptions } from 'next-auth'
+import { SessionUser } from '../../../lib/data-types'
 import Providers from 'next-auth/providers'
 import { SessionBase } from 'next-auth/_utils'
 import { NextApiHandler } from 'next'
 import { GetUserOrSaveNewUser } from '../../../utils/dbFunctions'
 
-// The User data type must match any modifications
-// in the JWT callback.
-interface myUser extends User {
-  dominilingo: {
-    uid: string | number
-    role: string
-  }
-}
-
 const options: InitOptions = {
   providers: [
     Providers.GitHub({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
+      clientId: process.env.GITHUB_ID || '',
+      clientSecret: process.env.GITHUB_SECRET || '',
     }),
   ],
   jwt: {
@@ -45,6 +37,7 @@ const options: InitOptions = {
       // Use this statement to add any information neede in the JWT
       // May use the profile.id to query database and get user's permissions
       if (!token.dominilingo) {
+        // Todo: Put _id
         token.dominilingo = user.dominilingo
       }
 
@@ -56,7 +49,7 @@ const options: InitOptions = {
      *                               JSON Web Token (if not using database sessions)
      * @return {object}              Session that will be returned to the client
      */
-    session: async (session: SessionBase, user: myUser) => {
+    session: async (session: SessionBase, user: SessionUser) => {
       // The user gets its data from the token in the JWT callback
       return Promise.resolve({
         ...session,

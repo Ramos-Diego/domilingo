@@ -4,8 +4,9 @@ import { getWordData, getAllSlugs } from '../../utils/dbFunctions'
 import NavBar from '../../components/NavBar'
 import Center from '../../components/Center'
 import WordCard from '../../components/WordCard'
+import { Word } from '../../lib/data-types'
 
-export default function Home({ word }) {
+export default function Home({ word }: { word: Word }) {
   return (
     <>
       <NavBar />
@@ -14,7 +15,7 @@ export default function Home({ word }) {
           <title>{word.word}</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <WordCard item={word} />
+        <WordCard word={word} />
       </Center>
     </>
   )

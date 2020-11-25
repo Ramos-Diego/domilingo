@@ -1,6 +1,6 @@
 import React, { createContext, useReducer } from 'react'
 import AppReducer from './AppReducer'
-import { State, GlobalContextType } from '../typings/dominilingo'
+import { State, GlobalContextType } from '../lib/data-types'
 
 const initialState: State = {
   word: '',

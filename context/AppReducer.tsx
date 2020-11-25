@@ -1,20 +1,20 @@
-import { State, Actions } from '../typings/dominilingo'
+import { State, Actions } from '../lib/data-types'
 // The 'state' parameter for the useReducer function
 // is the current state. The action is a function that gets
 // called to update the state.
 const AppReducer = (state: State, action: Actions) => {
   switch (action.type) {
     case 'EDIT':
-      if (state.edit && action.word !== state.word) {
+      if (state.edit && action._id !== state.wordId) {
         return {
           ...state,
-          word: action.word,
+          wordId: action._id,
         }
       } else {
         return {
           ...state,
           edit: !state.edit,
-          word: action.word,
+          wordId: action._id,
         }
       }
     case 'USE_EFFECT':
@@ -23,9 +23,13 @@ const AppReducer = (state: State, action: Actions) => {
         edit: false,
       }
     case 'DELETE':
-      return {
-        ...state,
-        delete: state.deleted.push(action.word),
+      if (action._id) {
+        return {
+          ...state,
+          delete: state.deleted.push(action._id),
+        }
+      } else {
+        return state
       }
     case 'DROPDOWN':
       return {

@@ -4,8 +4,9 @@ import { getApprovedWords } from '../utils/dbFunctions'
 import NavBar from '../components/NavBar'
 import Center from '../components/Center'
 import WordCard from '../components/WordCard'
+import { Word } from '../lib/data-types'
 
-export default function Home({ words }) {
+export default function Home({ words }: { words: Word[] }) {
   return (
     <>
       <NavBar />
@@ -16,7 +17,7 @@ export default function Home({ words }) {
         </Head>
         <div className="grid justify-center sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {words.map((item, idx) => {
-            return <WordCard item={item} key={idx} />
+            return <WordCard word={item} key={idx} />
           })}
         </div>
       </Center>

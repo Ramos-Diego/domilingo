@@ -4,16 +4,15 @@ import { getUnapprovedWords } from '../../utils/dbFunctions'
 import NavBar from '../../components/NavBar'
 import Center from '../../components/Center'
 import WordCard from '../../components/WordCard'
-import { Session, useSession } from 'next-auth/client'
-import { NewUser } from '../../typings/dominilingo'
-type ExtendedSession = Session & { user: NewUser }
+import { useSession } from 'next-auth/client'
+import { ExtendedUseSession, Word } from '../../lib/data-types'
 
-export default function Approve({ words }) {
-  const [session, loading]: [ExtendedSession, boolean] = useSession()
+export default function Approve({ words }: { words: Word[] }) {
+  const [session, loading]: ExtendedUseSession = useSession()
 
   if (loading) return null
 
-  if (!session || session.user.dominilingo.role !== 'admin') {
+  if (!session || session.user.dominilingo?.role !== 'admin') {
     return <div>Access denied.</div>
   }
 
@@ -27,8 +26,8 @@ export default function Approve({ words }) {
         </Head>
         {words.length === 0 && <div>There is nothing here.</div>}
         <div className="grid justify-center sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {words.map((item, idx) => {
-            return <WordCard item={item} key={idx} />
+          {words.map((word, idx) => {
+            return <WordCard word={word} key={idx} />
           })}
         </div>
       </Center>

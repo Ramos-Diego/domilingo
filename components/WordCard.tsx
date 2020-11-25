@@ -1,37 +1,30 @@
-import { Session, useSession } from 'next-auth/client'
+import { useSession } from 'next-auth/client'
 import WordCardWithForm from '../components/WordCardWithForm'
 import HideIfDeleted from '../components/HideIfDeleted'
-import { NewUser } from '../typings/dominilingo'
+import { ExtendedUseSession, Word } from '../lib/data-types'
 import Link from 'next/link'
 
-type ExtendedSession = Session & { user: NewUser }
-
-export default function WordCard({
-  item,
-}: {
-  // Todo: Remove any type
-  item: any
-}) {
-  const [session]: [ExtendedSession, boolean] = useSession()
+export default function WordCard({ word }: { word: Word }) {
+  const [session]: ExtendedUseSession = useSession()
 
   // This component returns two different types of word cards.
   // If the user logged in is an admin or author of the word
   // It will return a card containing a form to edit the word and a delete button
   // In any other case, this will return a simple card with no actions
   return (
-    <HideIfDeleted word={item.word}>
+    <HideIfDeleted _id={word._id}>
       <div className="grid grid-rows-1fr-auto gap-2 rounded bg-gray-800 p-3">
-        {session && session.user.dominilingo.uid === item.uid ? (
-          <WordCardWithForm word={item} />
+        {session && session.user.dominilingo?._id === word.createdBy ? (
+          <WordCardWithForm word={word} />
         ) : (
           <>
             <div className="text-lg font-extrabold overflow-x-auto">
-              <Link href={`/d/${item.slug}`}>
-                <a className="hover:text-blue-400">{item.word}</a>
+              <Link href={`/d/${word.slug}`}>
+                <a className="hover:text-blue-400">{word.word}</a>
               </Link>
             </div>
             <div>
-              {item.definitions.map((item, idx) => {
+              {word.definitions.map((item, idx) => {
                 return (
                   <div key={idx} className="mt-2">
                     <div className="ml-2 overflow-x-auto">

@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form'
 import NavBar from '../components/NavBar'
 import { useSession } from 'next-auth/client'
 import { useRouter } from 'next/router'
+import { NewWordForm } from '../lib/data-types'
 
 export default function New() {
   const { register, handleSubmit, errors } = useForm()
@@ -20,7 +21,7 @@ export default function New() {
     return <div>You must be logged in to submit a new word.</div>
   }
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: NewWordForm) => {
     const response = await fetch('/api/db', {
       method: 'POST',
       headers: {
