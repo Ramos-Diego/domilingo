@@ -11,27 +11,26 @@ import { useRouter } from 'next/router'
 
 export default function New() {
   const { register, handleSubmit, errors } = useForm()
-  const [session] = useSession()
+  const [session, loading] = useSession()
   const router = useRouter()
 
+  if (loading) return null
+
+  if (!session) {
+    return <div>You must be logged in to submit a new word.</div>
+  }
+
   const onSubmit = async (data) => {
-    if (session) {
-      const response = await fetch('/api/db', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-      const resData = await response.json()
-      console.log(resData.result.slug) // parses JSON response into native JavaScript objects
-      router.push({
-        pathname: '/d/[slug]',
-        query: { slug: resData.result.slug },
-      })
-      return resData
-    } else {
-      alert('you must be logged in to submit a word.')
+    const response = await fetch('/api/db', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    if (response.ok) {
+      const body = await response.json()
+      router.push(`/d/${body.slug}`)
     }
   }
 

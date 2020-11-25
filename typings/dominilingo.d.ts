@@ -1,32 +1,30 @@
-import { Session } from 'next-auth/client'
-
-type DbConnection = {
+export type DbConnection = {
   isConnected: number
 }
 
-type GlobalContext = {
+export type GlobalContextType = {
   state: State
   dispatch: React.Dispatch<Actions>
 }
 
-type State = {
+export type State = {
   word: string
   edit: boolean
   deleted: string[]
+  dropdownMenu: boolean
 }
 
-type Actions = {
-  type: 'EDIT' | 'USE_EFFECT' | 'DELETE'
-  word: string
+export type Actions = {
+  type: 'EDIT' | 'USE_EFFECT' | 'DELETE' | 'DROPDOWN'
+  word?: string
 }
 
-type NewUser = {
+export type NewUser = {
   name?: string | null
   email?: string | null
   image?: string | null
   dominilingo?: {
     uid: string | null
+    role: 'user' | 'admin'
   }
 }
-
-type ExtendedSession = Session & { user: NewUser }

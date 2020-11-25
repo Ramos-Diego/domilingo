@@ -1,3 +1,4 @@
+import { State, Actions } from '../typings/dominilingo'
 // The 'state' parameter for the useReducer function
 // is the current state. The action is a function that gets
 // called to update the state.
@@ -25,6 +26,11 @@ const AppReducer = (state: State, action: Actions) => {
       return {
         ...state,
         delete: state.deleted.push(action.word),
+      }
+    case 'DROPDOWN':
+      return {
+        ...state,
+        dropdownMenu: !state.dropdownMenu,
       }
     default:
       return state

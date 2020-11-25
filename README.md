@@ -12,16 +12,20 @@ A dictionary of Dominican slang.
 - [x] Index page shows words sorted alphabetically
 - [x] Add a word to the database
 - [x] Persist custom user data in database (id/roles)
+- [x] Generate slugs for word paths (/d/[slug])
+- [ ] Prevent duplicate entries
 - [ ] Allow users to create a username
-- [ ] Generate slugs for word paths (/d/[word])
-- [ ] Add option to display words by letter, trending, alphabetical descending order
+- [ ] Display words by letter, trending, alphabetical descending order
 - [ ] Show word of the day
-- [ ] Add search by word
-- [ ] Add search by word tags
+- [ ] Search by word
+- [ ] Add word tags upon creation or edition
+- [ ] Search by word tags
 
 ### ADMINS
 
-- [ ] Edit and delete user submissions
+- [x] Edit and delete user submissions
+- [x] Create APPROVE function for user submissions
+- [ ] Ask for confirmation to delete word
 - [ ] Bulk submissions
 
 ### USERS

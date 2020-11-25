@@ -1,15 +1,17 @@
 import React, { createContext, useReducer } from 'react'
 import AppReducer from './AppReducer'
+import { State, GlobalContextType } from '../typings/dominilingo'
 
 const initialState: State = {
   word: '',
+  dropdownMenu: false,
   deleted: [],
   edit: false,
 }
 
 // The global context becomes a single source of truth
 // Any child element can grab states from it
-export const GlobalContext = createContext<GlobalContext>({
+export const GlobalContext = createContext<GlobalContextType>({
   state: initialState,
   dispatch: () => null,
 })

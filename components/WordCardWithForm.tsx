@@ -51,6 +51,23 @@ export default function WordCardWithForm({ word }: { word: any }) {
     }
   }
 
+  const approveOneWordFetch = async (word: string) => {
+    if (session) {
+      const response = await fetch('/api/db', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ word, approval: true }),
+      })
+      const resData = await response.json()
+      console.log(resData) // parses JSON response into native JavaScript objects
+      return resData
+    } else {
+      alert('you must be logged in to submit a word.')
+    }
+  }
+
   // This useEffect clears sets edit state to false
   // when switching the path changes
   // Todo: check that useEffect is being cleared correctly
@@ -149,6 +166,15 @@ export default function WordCardWithForm({ word }: { word: any }) {
         >
           Delete
         </Button>
+        {!word.approved && (
+          <Button
+            onClick={() => {
+              approveOneWordFetch(word.word)
+            }}
+          >
+            Approve
+          </Button>
+        )}
       </div>
     </>
   )

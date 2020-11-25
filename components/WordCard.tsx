@@ -1,8 +1,10 @@
-import { useSession } from 'next-auth/client'
-import { ExtendedSession } from '../types'
+import { Session, useSession } from 'next-auth/client'
 import WordCardWithForm from '../components/WordCardWithForm'
 import HideIfDeleted from '../components/HideIfDeleted'
+import { NewUser } from '../typings/dominilingo'
 import Link from 'next/link'
+
+type ExtendedSession = Session & { user: NewUser }
 
 export default function WordCard({
   item,

@@ -4,9 +4,9 @@ import {
   deleteWord,
   createWord,
   getOneWord,
+  approveOneWord,
 } from '../../utils/dbFunctions'
 import jwt from 'next-auth/jwt'
-import { CONNREFUSED } from 'dns'
 
 const secret = process.env.JWT_SECRET
 
@@ -28,23 +28,35 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         const confirmation = await createWord(req.body, token)
 
         const result = await getOneWord(confirmation.insertedId)
-        console.log({ result })
 
         res.status(201)
-        res.json({ success: true, result })
+        res.json({ success: true, ...result })
       } catch (e) {
         res.status(500)
         res.json({ success: false })
       }
     } else if (req.method === 'PATCH') {
-      try {
-        const result = await updateWord(req.body.word, req.body)
+      // Case when admin approves one word
+      if (req.body.approval) {
+        try {
+          const result = await approveOneWord(req.body.word)
 
-        res.status(201)
-        res.json({ success: true, result })
-      } catch (e) {
-        res.status(500)
-        res.json({ success: false })
+          res.status(201)
+          res.json({ success: true, result })
+        } catch (e) {
+          res.status(500)
+          res.json({ success: false })
+        }
+      } else {
+        try {
+          const result = await updateWord(req.body.word, req.body)
+
+          res.status(201)
+          res.json({ success: true, result })
+        } catch (e) {
+          res.status(500)
+          res.json({ success: false })
+        }
       }
     } else if (req.method === 'DELETE') {
       try {

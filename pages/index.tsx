@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { GetStaticProps } from 'next'
-import { getWords } from '../utils/dbFunctions'
+import { getApprovedWords } from '../utils/dbFunctions'
 import NavBar from '../components/NavBar'
 import Center from '../components/Center'
 import WordCard from '../components/WordCard'
@@ -25,7 +25,7 @@ export default function Home({ words }) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const words = JSON.parse(await getWords())
+  const words = JSON.parse(await getApprovedWords())
 
   return { props: { words } }
 }

@@ -1,18 +1,48 @@
 import { connectToDatabase } from './mongodb'
 import slugify from 'slugify'
 
-export const getWords = async () => {
+export const getApprovedWords = async () => {
   const { db } = await connectToDatabase()
 
   const result = await db
     .collection('words')
-    .find({})
+    .find({ approved: true })
     // Collation allows for case insentive sorting
     .collation({ locale: 'en' })
     .sort({ word: 1 })
     .toArray()
 
   return JSON.stringify(result)
+}
+
+export const getUnapprovedWords = async () => {
+  const { db } = await connectToDatabase()
+
+  const result = await db
+    .collection('words')
+    .find({ approved: false })
+    // Collation allows for case insentive sorting
+    .collation({ locale: 'en' })
+    .sort({ word: 1 })
+    .toArray()
+
+  return JSON.stringify(result)
+}
+
+// Todo: remove any type
+export const approveOneWord = async (word: string) => {
+  const { db } = await connectToDatabase()
+
+  // Todo: make array selections dynamic
+  const updateObject = {
+    approved: true,
+  }
+
+  const result = await db
+    .collection('words')
+    .updateOne({ word }, { $set: updateObject })
+
+  return result
 }
 
 export const getOneWord = async (_id: string) => {
@@ -68,6 +98,7 @@ export const createWord = async (obj: any, token: any) => {
   const wordSchema = {
     word: obj.word,
     slug: slugify(obj.word),
+    approved: false,
     definitions: [{ definition: obj.definition, examples: [obj.example] }],
     uid: token.dominilingo.uid,
   }
