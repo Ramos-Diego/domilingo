@@ -58,9 +58,10 @@ export default function New() {
             type="text"
             label="Example sentence"
             name="example"
-            register={register}
+            register={register({ required: true })}
             placeholder="Enter sentence"
           />
+          {errors.example && <Alert message="The example is required" />}
           <Button>Submit</Button>
         </Form>
       </Center>

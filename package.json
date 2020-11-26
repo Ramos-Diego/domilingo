@@ -19,6 +19,7 @@
     "react-hook-form": "^6.11.4",
     "react-icons": "^3.11.0",
     "slugify": "^1.4.6",
+    "swr": "^0.3.9",
     "tailwindcss": "^2.0.1"
   },
   "devDependencies": {

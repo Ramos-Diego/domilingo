@@ -28,5 +28,5 @@ export default function Home({ words }: { words: Word[] }) {
 export const getStaticProps: GetStaticProps = async () => {
   const words = JSON.parse(await getApprovedWords())
 
-  return { props: { words } }
+  return { props: { words }, revalidate: 5 }
 }

@@ -38,12 +38,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return { paths, fallback: false }
 }
 
-export const getStaticProps: GetStaticProps = async ({
-  params: { _id },
-}: {
-  params: { _id: string }
-}) => {
-  const words = JSON.parse(await getUserWords(_id))
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const words: Word[] = JSON.parse(await getUserWords(params?._id as string))
 
-  return { props: { words } }
+  return { props: { words }, revalidate: 5 }
 }

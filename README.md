@@ -13,6 +13,8 @@ A dictionary of Dominican slang.
 - [x] Add a word to the database
 - [x] Persist custom user data in database (id/roles)
 - [x] Generate slugs for word paths (/d/[slug])
+- [ ]Implement SWR
+- [ ] Implement pagination
 - [ ] Prevent duplicate entries
 - [ ] Allow users to create a username
 - [ ] Display words by letter, trending, alphabetical descending order

@@ -37,5 +37,5 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const word = JSON.parse(await getWordData(params?.slug))
 
-  return { props: { word } }
+  return { props: { word }, revalidate: 5 }
 }

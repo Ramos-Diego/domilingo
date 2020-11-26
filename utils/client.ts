@@ -17,10 +17,15 @@ export const createWordFetch = async (
       body: JSON.stringify(data),
     })
     // const slug = slugify(data.word)
-    if (response.ok) {
-      // router.push(`/d/${slug}`)
-      response.json().then((body) => router.push(`/d/${body.slug}`))
-    }
+    // if (response.ok) {
+    //   // router.push(`/d/${slug}`)
+    //   response.json().then((body) =>
+    //     router.push({
+    //       pathname: '/d/[slug]',
+    //       query: { slug: body.slug },
+    //     })
+    //   )
+    // }
     return response
   } else {
     alert('you must be logged in to submit a word.')
@@ -69,14 +74,3 @@ export const approveWordFetch = async (_id: string) => {
   })
   return response.ok
 }
-
-// export const updateWordFetch2 = async (_id: ObjectId, data: EditWordForm) => {
-//   const response = await fetch('/api/db', {
-//     method: 'PATCH',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify({ ...data, _id }),
-//   })
-//   return response.ok
-// }

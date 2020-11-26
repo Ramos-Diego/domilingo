@@ -5,8 +5,10 @@ import {
   createWord,
   getOneWord,
   approveOneWord,
+  getUnapprovedWords2,
 } from '../../utils/dbFunctions'
 import jwt from 'next-auth/jwt'
+import { Word } from '../../lib/data-types'
 
 const secret = process.env.JWT_SECRET || ''
 
@@ -23,7 +25,18 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         const result = await getOneWord(confirmation.insertedId)
 
         res.status(201)
+        // res.redirect('/')
         res.json({ success: true, ...result })
+      } catch (e) {
+        res.status(500)
+        res.json({ success: false })
+      }
+    } else if (req.method === 'GET') {
+      try {
+        const result = await getUnapprovedWords2()
+
+        res.status(201)
+        res.json(result)
       } catch (e) {
         res.status(500)
         res.json({ success: false })

@@ -31,6 +31,20 @@ export const getUnapprovedWords = async () => {
   return JSON.stringify(result)
 }
 
+export const getUnapprovedWords2 = async () => {
+  const { db } = await connectToDatabase()
+
+  const result = await db
+    .collection('words')
+    .find({ approved: false })
+    // Collation allows for case insentive sorting
+    .collation({ locale: 'en' })
+    .sort({ word: 1 })
+    .toArray()
+
+  return result
+}
+
 // Todo: remove any type
 export const approveOneWord = async (_id: ObjectId) => {
   const { db } = await connectToDatabase()
@@ -82,7 +96,7 @@ export const getUserWords = async (_id: string) => {
   const result = await db
     .collection('words')
     // Todo: check this
-    .find({ createdBy: _id })
+    .find({ createdBy: new ObjectId(_id) })
     .toArray()
 
   return JSON.stringify(result)
@@ -109,7 +123,7 @@ export const createWord = async (obj: NewWordForm, token: SessionUser) => {
     slug: slugify(obj.word),
     approved: false,
     definitions: [{ definition: obj.definition, examples: [obj.example] }],
-    createdBy: new ObjectId(token.dominilingo._id),
+    createdBy: new ObjectId(token.dominilingo?._id),
     created: Date.now(),
   }
 
@@ -125,6 +139,7 @@ export const updateWord = async (_id: string, obj: EditWordForm) => {
   // Todo: make array selections dynamic
   const updateObject = {
     word: obj.word,
+    slug: slugify(obj.word),
     'definitions.0.definition': obj.definition,
     'definitions.0.examples.0': obj.example,
   }
