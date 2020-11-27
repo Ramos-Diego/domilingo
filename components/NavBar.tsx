@@ -1,14 +1,11 @@
 import { signIn, useSession } from 'next-auth/client'
 import { ExtendedUseSession } from '../lib/data-types'
-import { useRouter } from 'next/router'
 import { FaBookOpen } from 'react-icons/fa'
 import Link from 'next/link'
 import Button from './Button'
-import Search from './Search'
 import UserMenu from './UserMenu'
 
 export default function NavBar() {
-  const router = useRouter()
   const [session]: ExtendedUseSession = useSession()
 
   return (
@@ -19,7 +16,7 @@ export default function NavBar() {
           <a>DOMINILINGO</a>
         </Link>
       </div>
-      {router.pathname === '/' && <Search />}
+      {}
       {session ? (
         <UserMenu />
       ) : (

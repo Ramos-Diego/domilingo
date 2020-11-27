@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import Button from '../components/Button'
-import Form from '../components/Form'
 import Input from '../components/Input'
 import Alert from '../components/Alert'
 import Center from '../components/Center'
@@ -33,9 +32,11 @@ export default function New() {
         <p className="font-sans text-xl font-bold text-center mb-4 uppercase">
           Add a word to the dictionary
         </p>
-        <Form
-          onSubmit={handleSubmit(async (data: NewWordForm) => {
+        <form
+          className="grid gap-3 bg-gray-800 shadow-md rounded px-8 pt-6 pb-8 mb-4"
+          onSubmit={handleSubmit(async (data: NewWordForm, e) => {
             createWordFetch(session, router, data)
+            e?.target.reset()
           })}
         >
           <Input
@@ -63,7 +64,7 @@ export default function New() {
           />
           {errors.example && <Alert message="The example is required" />}
           <Button>Submit</Button>
-        </Form>
+        </form>
       </Center>
     </>
   )

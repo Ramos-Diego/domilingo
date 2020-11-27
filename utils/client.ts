@@ -46,7 +46,7 @@ export const updateWordFetch = async (
       },
       body: JSON.stringify({ ...data, _id: word._id }),
     })
-    router.reload()
+    // router.reload()
     return response
   } else {
     alert('you must be logged in to submit a word.')

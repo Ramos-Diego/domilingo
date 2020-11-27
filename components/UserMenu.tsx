@@ -1,5 +1,3 @@
-import { useContext } from 'react'
-import { GlobalContext } from '../context/GlobalState'
 import { signOut, useSession } from 'next-auth/client'
 import { ExtendedUseSession } from '../lib/data-types'
 import { useRouter } from 'next/router'
@@ -8,7 +6,6 @@ import Link from 'next/link'
 export default function DropdownMenu() {
   const router = useRouter()
   const [session]: ExtendedUseSession = useSession()
-  const { state, dispatch } = useContext(GlobalContext)
   return (
     <>
       {session ? (
@@ -17,13 +14,9 @@ export default function DropdownMenu() {
             src={session.user.image ? session.user.image : ''}
             alt={session.user.name ? session.user.name : ''}
             className="w-8 h-8 rounded-full"
-            onClick={() =>
-              dispatch({
-                type: 'DROPDOWN',
-              })
-            }
+            onClick={() => console.log('create drop down logic')}
           />
-          <div className={state.dropdownMenu ? '' : 'hidden'}>
+          <div className="hidden">
             <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-gray-700 ring-1 ring-white ring-opacity-5">
               <div
                 className="py-1"

@@ -1,9 +1,9 @@
 import { connectToDatabase } from './mongodb'
 import { ObjectId } from 'mongodb'
 import slugify from 'slugify'
-import { EditWordForm, NewWordForm, Word, SessionUser } from '../lib/data-types'
+import { EditWordForm, NewWordForm, SessionUser } from '../lib/data-types'
 
-export const getApprovedWords = async () => {
+export const getApprovedWords = async (asString?: boolean) => {
   const { db } = await connectToDatabase()
 
   const result = await db
@@ -14,10 +14,10 @@ export const getApprovedWords = async () => {
     .sort({ word: 1 })
     .toArray()
 
-  return JSON.stringify(result)
+  return asString ? JSON.stringify(result) : result
 }
 
-export const getUnapprovedWords = async () => {
+export const getUnapprovedWords = async (asString?: boolean) => {
   const { db } = await connectToDatabase()
 
   const result = await db
@@ -28,21 +28,7 @@ export const getUnapprovedWords = async () => {
     .sort({ word: 1 })
     .toArray()
 
-  return JSON.stringify(result)
-}
-
-export const getUnapprovedWords2 = async () => {
-  const { db } = await connectToDatabase()
-
-  const result = await db
-    .collection('words')
-    .find({ approved: false })
-    // Collation allows for case insentive sorting
-    .collation({ locale: 'en' })
-    .sort({ word: 1 })
-    .toArray()
-
-  return result
+  return asString ? JSON.stringify(result) : result
 }
 
 // Todo: remove any type
