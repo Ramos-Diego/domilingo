@@ -4,10 +4,8 @@ import {
   deleteWord,
   createWord,
   approveOneWord,
-  getApprovedWords,
 } from '../../utils/dbFunctions'
 import jwt from 'next-auth/jwt'
-import { Word } from '../../lib/data-types'
 
 const secret = process.env.JWT_SECRET || ''
 

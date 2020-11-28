@@ -15,7 +15,7 @@ export const getStaticPaths: GetStaticPaths<{ _id: string }> = async () => {
     params: { _id },
   }))
 
-  return { paths, fallback: false }
+  return { paths, fallback: 'blocking' }
 }
 
 export const getStaticProps: GetStaticProps<{ staticProps: Word[] }> = async ({
@@ -23,7 +23,7 @@ export const getStaticProps: GetStaticProps<{ staticProps: Word[] }> = async ({
 }) => {
   const staticProps = JSON.parse(await getUserWords(params?._id as string))
 
-  return { props: { staticProps }, revalidate: 3 }
+  return { props: { staticProps }, revalidate: 1 }
 }
 
 export default function uid({
@@ -31,18 +31,34 @@ export default function uid({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <>
-      <Head>
-        <title>Add new word</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <NavBar />
-      <div className="mx-auto max-w-lg mt-4">
-        <div className="grid gap-3">
-          {staticProps.map((item, idx) => {
-            return <WordCard word={item} key={idx} />
-          })}
-        </div>
-      </div>
+      {staticProps ? (
+        <>
+          <Head>
+            <title>Add new word</title>
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
+          <NavBar />
+          <div className="mx-auto max-w-lg mt-4">
+            <div className="grid gap-3">
+              {staticProps.map((item, idx) => {
+                return <WordCard word={item} key={idx} />
+              })}
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          {/* IF THE WORD GETS DELETED (API RETURNS NULL) THE SITE MUST BE REGENERATED WITH A 404 */}
+          {/* FROM THAT POINT ON THAT 404 PAGE WILL BE ADDED TO THE LIST OF PRE-RENDERED PAGES */}
+          {/* THERE COULD BE MANY PATHS WITH THIS CUSTOM 404 MESSAGE */}
+          {/* ALL THESE REPEATED PAGES WILL ONLY BE DELETED AFTER ANOTHER BUILD */}
+          <Head>
+            <title>404</title>
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
+          <div>404</div>
+        </>
+      )}
     </>
   )
 }

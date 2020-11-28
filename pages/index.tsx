@@ -10,7 +10,7 @@ export const getStaticProps: GetStaticProps<{
 }> = async () => {
   const staticProps = JSON.parse(await getApprovedWords(true))
 
-  return { props: { staticProps }, revalidate: 3 }
+  return { props: { staticProps }, revalidate: 30 }
 }
 
 export default function Home({
