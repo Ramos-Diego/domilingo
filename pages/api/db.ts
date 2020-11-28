@@ -23,11 +23,6 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         res.status(201)
         res.json({ insertedId: dbRes.insertedId })
         break
-      case 'GET':
-        const approved: Word[] = await getApprovedWords()
-        res.status(201)
-        res.json(approved)
-        break
       case 'PATCH':
         // Case when admin approves one word
         if (req.body.approval) {

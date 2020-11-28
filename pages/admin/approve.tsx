@@ -36,12 +36,15 @@ export default function Approve({
           <title>Dominilingo</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        {unapprovedWords?.length === 0 && <div>There is nothing here.</div>}
-        <div className="grid gap-3">
-          {unapprovedWords?.map((word, idx) => {
-            return <WordCard word={word} key={idx} />
-          })}
-        </div>
+        {unapprovedWords?.length === 0 ? (
+          <div>There is nothing here.</div>
+        ) : (
+          <div className="grid gap-3">
+            {unapprovedWords?.map((word, idx) => {
+              return <WordCard word={word} key={idx} />
+            })}
+          </div>
+        )}
       </div>
     </>
   )
