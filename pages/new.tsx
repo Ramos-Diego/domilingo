@@ -2,13 +2,12 @@ import Head from 'next/head'
 import Button from '../components/Button'
 import Input from '../components/Input'
 import Alert from '../components/Alert'
-import Center from '../components/Center'
 import { useForm } from 'react-hook-form'
-import NavBar from '../components/NavBar'
 import { useSession } from 'next-auth/client'
 import { useRouter } from 'next/router'
 import { NewWordForm } from '../lib/data-types'
 import { createWordFetch } from '../utils/client'
+import NavBar from '../components/NavBar'
 
 export default function New() {
   const { register, handleSubmit, errors } = useForm()
@@ -28,7 +27,7 @@ export default function New() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <NavBar />
-      <Center max="sm" styles="px-2">
+      <div className="mx-auto max-w-lg mt-4">
         <p className="font-sans text-xl font-bold text-center mb-4 uppercase">
           Add a word to the dictionary
         </p>
@@ -65,7 +64,7 @@ export default function New() {
           {errors.example && <Alert message="The example is required" />}
           <Button>Submit</Button>
         </form>
-      </Center>
+      </div>
     </>
   )
 }

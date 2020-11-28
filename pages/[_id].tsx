@@ -1,10 +1,9 @@
 import Head from 'next/head'
-import Center from '../components/Center'
 import WordCard from '../components/WordCard'
-import NavBar from '../components/NavBar'
 import { GetStaticProps, GetStaticPaths, InferGetStaticPropsType } from 'next'
 import { getUserWords, getUserIds } from '../utils/dbFunctions'
 import { Word } from '../lib/data-types'
+import NavBar from '../components/NavBar'
 
 export const getStaticPaths: GetStaticPaths<{ _id: string }> = async () => {
   // Get all the ids for all the public officials in the database
@@ -37,13 +36,13 @@ export default function uid({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <NavBar />
-      <Center max="sm" styles="px-2">
-        <div className="grid justify-center sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <div className="mx-auto max-w-lg mt-4">
+        <div className="grid gap-3">
           {staticProps.map((item, idx) => {
             return <WordCard word={item} key={idx} />
           })}
         </div>
-      </Center>
+      </div>
     </>
   )
 }

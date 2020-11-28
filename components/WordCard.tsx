@@ -10,10 +10,6 @@ export default function WordCard({ word }: { word: Word }) {
   const router = useRouter()
   const [session]: ExtendedUseSession = useSession()
 
-  // This component returns two different types of word cards.
-  // If the user logged in is an admin or author of the word
-  // It will return a card containing a form to edit the word and a delete button
-  // In any other case, this will return a simple card with no actions
   return (
     <div className="grid grid-rows-1fr-auto gap-2 rounded bg-gray-800 p-3">
       <div className="text-lg font-extrabold overflow-x-auto">
@@ -37,33 +33,39 @@ export default function WordCard({ word }: { word: Word }) {
           )
         })}
       </div>
-      {session && session.user.dominilingo?._id === word.createdBy && (
+      {session && (
         <div className="grid grid-flow-col gap-2">
-          <Button
-            onClick={() => console.log('edit funciton does not exist, yet.')}
-          >
-            Edit
-          </Button>
-          <Button
-            onClick={async () => {
-              await deleteWordFetch(word._id)
-              // Trigger a revalidation/update the cache when the promise resolves
-              router.pathname === '/' && trigger('/api/db')
-              router.pathname === '/admin/approve' && trigger('/api/admin')
-            }}
-          >
-            Delete
-          </Button>
-          {!word.approved && (
-            <Button
-              onClick={async () => {
-                await approveWordFetch(word._id)
-                // Trigger a revalidation/update the cache when the promise resolves
-                trigger('/api/admin')
-              }}
-            >
-              Approve
-            </Button>
+          {session.user.dominilingo?.role === 'admin' && (
+            <>
+              <Button
+                onClick={async () => {
+                  await deleteWordFetch(word._id)
+                  // Trigger a revalidation/update the cache when the promise resolves
+                  router.pathname === '/' && trigger('/api/db')
+                  router.pathname === '/admin/approve' && trigger('/api/admin')
+                }}
+              >
+                Delete
+              </Button>
+              {!word.approved && (
+                <Button
+                  onClick={async () => {
+                    await approveWordFetch(word._id)
+                    // Trigger a revalidation/update the cache when the promise resolves
+                    trigger('/api/admin')
+                  }}
+                >
+                  Approve
+                </Button>
+              )}
+              <Button
+                onClick={() =>
+                  console.log('edit funciton does not exist, yet.')
+                }
+              >
+                Edit
+              </Button>
+            </>
           )}
         </div>
       )}

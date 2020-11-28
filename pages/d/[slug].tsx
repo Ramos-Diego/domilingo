@@ -2,10 +2,9 @@ import Head from 'next/head'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { getWordData, getAllSlugs } from '../../utils/dbFunctions'
 import NavBar from '../../components/NavBar'
-import Center from '../../components/Center'
-// import WordCard from '../../components/WordCard'
 import { Word } from '../../lib/data-types'
 import { InferGetStaticPropsType } from 'next'
+import WordCard from '../../components/WordCard'
 
 export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
   // Get all the ids for all the public officials in the database
@@ -41,13 +40,13 @@ export default function Home({
   return (
     <>
       <NavBar />
-      <Center max="lg" styles="px-2 mb-4">
+      <div className="mx-auto max-w-lg mt-4">
         <Head>
           <title>{word.word}</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        {/* <WordCard word={word} /> */}
-      </Center>
+        <WordCard word={word} />
+      </div>
     </>
   )
 }

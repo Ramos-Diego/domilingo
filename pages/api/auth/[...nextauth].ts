@@ -11,6 +11,10 @@ const options: InitOptions = {
       clientId: process.env.GITHUB_ID || '',
       clientSecret: process.env.GITHUB_SECRET || '',
     }),
+    Providers.Google({
+      clientId: process.env.GOOGLE_CLIENT_ID || '',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+    }),
   ],
   jwt: {
     // A secret to use for key generation - set this explicitly
