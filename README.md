@@ -15,11 +15,13 @@ A dictionary of Dominican slang.
 - [x] Generate slugs for word paths (/d/[slug])
 - [x] Implement SWR
 - [ ] Translate site to Spanish
-- [ ] Implement pagination
+- [ ] Limit example sentence length to use in Tweet button
+- [ ] Implement pagination or Infinite scroll
 - [ ] Prevent duplicate entries
 - [ ] Allow users to create a username
-- [ ] Display words by letter, trending, alphabetical descending order
-- [ ] Show word of the day
+- [ ] Sort words by letter, alphabetical descending order
+- [ ] Trending page or word
+- [ ] Implement word of the day
 - [ ] Search by word
 - [ ] Add word tags upon creation or edition
 - [ ] Search by word tags

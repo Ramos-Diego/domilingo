@@ -5,6 +5,8 @@ import NavBar from '../../components/NavBar'
 import { Word } from '../../lib/data-types'
 import { InferGetStaticPropsType } from 'next'
 import WordCard from '../../components/WordCard'
+import { useEffect } from 'react'
+import NotFound from '../../components/NotFound'
 
 export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
   // Get all the ids for all the public officials in the database
@@ -26,7 +28,7 @@ export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
 export const getStaticProps: GetStaticProps<{ word: Word }> = async ({
   params,
 }) => {
-  const word = JSON.parse(await getWordData(params?.slug))
+  const word = JSON.parse(await getWordData(params?.slug as string))
 
   // Upon every request the following logic runs.
   // revalidate: Has it been 2 seconds since the last request to this page?
@@ -40,32 +42,33 @@ export const getStaticProps: GetStaticProps<{ word: Word }> = async ({
 export default function Home({
   word,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
+  useEffect(() => {
+    // Redirect user when no data is fetched
+    !word && location.assign('/')
+  }, [])
+
   return (
     <>
       <NavBar />
-      <div className="mx-auto max-w-lg mt-4">
-        {word ? (
-          <>
-            <Head>
-              <title>{word.word}</title>
-              <link rel="icon" href="/favicon.ico" />
-            </Head>
+      {word ? (
+        <>
+          <Head>
+            <title>{word.word}</title>
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
+          <div className="mx-auto max-w-lg mt-4">
             <WordCard word={word} />
-          </>
-        ) : (
-          <>
-            {/* IF THE WORD GETS DELETED (API RETURNS NULL) THE SITE MUST BE REGENERATED WITH A 404 */}
-            {/* FROM THAT POINT ON THAT 404 PAGE WILL BE ADDED TO THE LIST OF PRE-RENDERED PAGES */}
-            {/* THERE COULD BE MANY PATHS WITH THIS CUSTOM 404 MESSAGE */}
-            {/* ALL THESE REPEATED PAGES WILL ONLY BE DELETED AFTER ANOTHER BUILD */}
-            <Head>
-              <title>404</title>
-              <link rel="icon" href="/favicon.ico" />
-            </Head>
-            <div>404</div>
-          </>
-        )}
-      </div>
+          </div>
+        </>
+      ) : (
+        <>
+          {/* IF THE WORD GETS DELETED (API RETURNS NULL) THE SITE MUST BE REGENERATED WITH A 404 */}
+          {/* FROM THAT POINT ON THAT 404 PAGE WILL BE ADDED TO THE LIST OF PRE-RENDERED PAGES */}
+          {/* THERE COULD BE MANY PATHS WITH THIS CUSTOM 404 MESSAGE */}
+          {/* ALL THESE REPEATED PAGES WILL ONLY BE DELETED AFTER ANOTHER BUILD */}
+          <NotFound />
+        </>
+      )}
     </>
   )
 }

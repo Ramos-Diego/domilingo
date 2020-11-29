@@ -4,15 +4,15 @@ import Input from '../components/Input'
 import Alert from '../components/Alert'
 import { useForm } from 'react-hook-form'
 import { useSession } from 'next-auth/client'
-import { useRouter } from 'next/router'
 import { NewWordForm } from '../lib/data-types'
 import { createWordFetch } from '../utils/client'
 import NavBar from '../components/NavBar'
+// import { useRouter } from 'next/router'
 
 export default function New() {
   const { register, handleSubmit, errors } = useForm()
   const [session, loading] = useSession()
-  const router = useRouter()
+  // const router = useRouter()
 
   if (loading) return null
 
@@ -34,8 +34,14 @@ export default function New() {
         <form
           className="grid gap-3 bg-gray-800 shadow-md rounded px-8 pt-6 pb-8 mb-4"
           onSubmit={handleSubmit(async (data: NewWordForm, e) => {
-            createWordFetch(session, router, data)
             e?.target.reset()
+            // createWordFetch returns the slug correspoding to the new word
+            const response = await createWordFetch(data)
+            const { slug } = await response.json()
+            // Redirect user to new page using Window.location
+            location.assign(`/d/${slug}`)
+            // Redirect user to new page using Next.js Router (UNRELIABLE)
+            // router.push(`/d/${slug}`)
           })}
         >
           <Input

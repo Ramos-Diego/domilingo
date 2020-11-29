@@ -4,6 +4,7 @@ import {
   deleteWord,
   createWord,
   approveOneWord,
+  getOneWord,
 } from '../../utils/dbFunctions'
 import jwt from 'next-auth/jwt'
 
@@ -16,10 +17,10 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     // Signed in
     switch (req.method) {
       case 'POST':
-        const dbRes = await createWord(req.body, token)
-
+        const { insertedId } = await createWord(req.body, token)
+        const newWord = await getOneWord(insertedId)
         res.status(201)
-        res.json({ insertedId: dbRes.insertedId })
+        res.json(newWord)
         break
       case 'PATCH':
         // Case when admin approves one word

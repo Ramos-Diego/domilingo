@@ -82,7 +82,7 @@ export default function NavBar() {
               )}
               <button
                 className="px-4 py-2 text-left text-gray-100 hover:bg-gray-900 hover:text-gray-100 focus:outline-none"
-                onClick={() => signOut()}
+                onClick={() => signOut({ callbackUrl: '/' })}
               >
                 Sign out
               </button>
@@ -90,9 +90,7 @@ export default function NavBar() {
           </div>
         </div>
       ) : (
-        <div>
-          <Button onClick={() => signIn('google')}>Sign In With Google</Button>
-        </div>
+        <Button onClick={() => signIn('google')}>Sign In With Google</Button>
       )}
     </div>
   )

@@ -68,7 +68,7 @@ export const getAllSlugs = async () => {
   return JSON.stringify(result)
 }
 
-export const getWordData = async (slug: string | string[] | undefined) => {
+export const getWordData = async (slug: string) => {
   const { db } = await connectToDatabase()
 
   const result = await db.collection('words').findOne({ slug })
@@ -78,14 +78,17 @@ export const getWordData = async (slug: string | string[] | undefined) => {
 
 export const getUserWords = async (_id: string) => {
   const { db } = await connectToDatabase()
+  try {
+    const result = await db
+      .collection('words')
+      // Todo: check this
+      .find({ createdBy: new ObjectId(_id) })
+      .toArray()
 
-  const result = await db
-    .collection('words')
-    // Todo: check this
-    .find({ createdBy: new ObjectId(_id) })
-    .toArray()
-
-  return JSON.stringify(result)
+    return JSON.stringify(result)
+  } catch (error) {
+    return JSON.stringify([])
+  }
 }
 
 export const getUserIds = async () => {
@@ -101,50 +104,60 @@ export const getUserIds = async () => {
 
 // Todo: remove any type
 export const createWord = async (obj: NewWordForm, token: SessionUser) => {
-  const { db } = await connectToDatabase()
+  try {
+    const { db } = await connectToDatabase()
 
-  //Todo: Create a type for this
-  const wordSchema = {
-    word: obj.word,
-    slug: slugify(obj.word),
-    approved: false,
-    definitions: [{ definition: obj.definition, examples: [obj.example] }],
-    createdBy: new ObjectId(token.dominilingo?._id),
-    created: Date.now(),
+    //Todo: Create a type for this
+    const wordSchema = {
+      word: obj.word,
+      slug: slugify(obj.word),
+      approved: false,
+      definitions: [{ definition: obj.definition, examples: [obj.example] }],
+      createdBy: new ObjectId(token.dominilingo?._id),
+      created: Date.now(),
+    }
+
+    const result = await db.collection('words').insertOne(wordSchema)
+
+    return result
+  } catch (error) {
+    return null
   }
-
-  const result = await db.collection('words').insertOne(wordSchema)
-
-  return result
 }
 
-// Todo: remove any type
 export const updateWord = async (_id: string, obj: EditWordForm) => {
-  const { db } = await connectToDatabase()
+  try {
+    const { db } = await connectToDatabase()
 
-  // Todo: make array selections dynamic
-  const updateObject = {
-    word: obj.word,
-    slug: slugify(obj.word),
-    'definitions.0.definition': obj.definition,
-    'definitions.0.examples.0': obj.example,
+    // Todo: make array selections dynamic
+    const updateObject = {
+      word: obj.word,
+      slug: slugify(obj.word),
+      'definitions.0.definition': obj.definition,
+      'definitions.0.examples.0': obj.example,
+    }
+
+    const result = await db
+      .collection('words')
+      .updateOne({ _id: new ObjectId(_id) }, { $set: updateObject })
+    return result
+  } catch (error) {
+    return null
   }
-
-  const result = await db
-    .collection('words')
-    .updateOne({ _id: new ObjectId(_id) }, { $set: updateObject })
-
-  return result
 }
 
 export const deleteWord = async (_id: string) => {
-  const { db } = await connectToDatabase()
+  try {
+    const { db } = await connectToDatabase()
 
-  const result = await db
-    .collection('words')
-    .deleteOne({ _id: new ObjectId(_id) })
+    const result = await db
+      .collection('words')
+      .deleteOne({ _id: new ObjectId(_id) })
 
-  return result
+    return result
+  } catch (error) {
+    return null
+  }
 }
 
 // Todo: create better types for this function
