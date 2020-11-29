@@ -1,27 +1,34 @@
 import Head from 'next/head'
-import { GetStaticProps, InferGetStaticPropsType } from 'next'
-import { getUnapprovedWords } from '../../utils/dbFunctions'
+import { GetServerSideProps } from 'next'
 import WordCard from '../../components/WordCard'
 import { useSession } from 'next-auth/client'
 import { ExtendedUseSession, Word } from '../../lib/data-types'
 import useSWR from 'swr'
 import NavBar from '../../components/NavBar'
+import { connectToDatabase } from '../../utils/mongodb'
 
-export const getStaticProps: GetStaticProps<{
-  staticProps: Word[]
+export const getServerSideProps: GetServerSideProps<{
+  words: Word[]
 }> = async () => {
-  const staticProps = JSON.parse(await getUnapprovedWords(true))
+  const { db } = await connectToDatabase()
 
-  return { props: { staticProps }, revalidate: 2 }
+  const words = await db
+    .collection('words')
+    // Get an array of all the unnaproved words
+    .find({ approved: false }, { projection: { _id: 0 } })
+    // Collation allows for case insentive sorting
+    .collation({ locale: 'en' })
+    .sort({ word: 1 })
+    .toArray()
+
+  return { props: { words } }
 }
 
-export default function Approve({
-  staticProps,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+export default function Approve({ words }: { words: Word[] }) {
   const [session]: ExtendedUseSession = useSession()
 
   const { data: unapprovedWords } = useSWR('/api/admin', {
-    initialData: staticProps,
+    initialData: words,
   })
 
   // Protect admin route

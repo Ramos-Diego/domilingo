@@ -20,22 +20,22 @@ export const updateWordFetch = (word: Word, data: EditWordForm) => {
   })
 }
 
-export const deleteWordFetch = (_id: string) => {
+export const deleteWordFetch = (slug: string) => {
   return fetch('/api/db', {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ _id }),
+    body: JSON.stringify({ slug }),
   })
 }
 
-export const approveWordFetch = (_id: string) => {
+export const approveWordFetch = (slug: string) => {
   return fetch('/api/db', {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ _id, approval: true }),
+    body: JSON.stringify({ slug, approval: true }),
   })
 }

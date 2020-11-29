@@ -1,19 +1,18 @@
 import Head from 'next/head'
 import { GetStaticProps, GetStaticPaths } from 'next'
-import { getWordData, getAllSlugs } from '../../utils/dbFunctions'
 import NavBar from '../../components/NavBar'
 import { Word } from '../../lib/data-types'
-import { InferGetStaticPropsType } from 'next'
 import WordCard from '../../components/WordCard'
-import { useEffect } from 'react'
-import NotFound from '../../components/NotFound'
+import { connectToDatabase } from '../../utils/mongodb'
 
 export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
-  // Get all the ids for all the public officials in the database
-  const slugs: { slug: string }[] = JSON.parse(await getAllSlugs())
+  const { db } = await connectToDatabase()
 
-  // Convert result array into the appropiate type of array for
-  // Next.js getStaticPaths function
+  const slugs: Word[] = await db
+    .collection('words')
+    .find({}, { slug: 1 })
+    .toArray()
+
   const paths = slugs.map(({ slug }) => ({
     params: { slug },
   }))
@@ -25,10 +24,20 @@ export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
 }
 
 // getStaticProps generates an html file AT BUILD TIME using the props it returns
-export const getStaticProps: GetStaticProps<{ word: Word }> = async ({
-  params,
-}) => {
-  const word = JSON.parse(await getWordData(params?.slug as string))
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const { db } = await connectToDatabase()
+  const word = await db
+    .collection('words')
+    .findOne({ slug: params?.slug }, { projection: { _id: 0 } })
+
+  if (!word) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
 
   // Upon every request the following logic runs.
   // revalidate: Has it been 2 seconds since the last request to this page?
@@ -39,36 +48,17 @@ export const getStaticProps: GetStaticProps<{ word: Word }> = async ({
   }
 }
 
-export default function Home({
-  word,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
-  useEffect(() => {
-    // Redirect user when no data is fetched
-    !word && location.assign('/')
-  }, [])
-
+export default function Slug({ word }: { word: Word }) {
   return (
     <>
       <NavBar />
-      {word ? (
-        <>
-          <Head>
-            <title>{word.word}</title>
-            <link rel="icon" href="/favicon.ico" />
-          </Head>
-          <div className="mx-auto max-w-lg mt-4">
-            <WordCard word={word} />
-          </div>
-        </>
-      ) : (
-        <>
-          {/* IF THE WORD GETS DELETED (API RETURNS NULL) THE SITE MUST BE REGENERATED WITH A 404 */}
-          {/* FROM THAT POINT ON THAT 404 PAGE WILL BE ADDED TO THE LIST OF PRE-RENDERED PAGES */}
-          {/* THERE COULD BE MANY PATHS WITH THIS CUSTOM 404 MESSAGE */}
-          {/* ALL THESE REPEATED PAGES WILL ONLY BE DELETED AFTER ANOTHER BUILD */}
-          <NotFound />
-        </>
-      )}
+      <Head>
+        <title>{word.word}</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <div className="mx-auto max-w-lg mt-4">
+        <WordCard word={word} />
+      </div>
     </>
   )
 }

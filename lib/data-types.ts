@@ -25,7 +25,7 @@ export interface Word {
 }
 
 export interface DominilingoUser {
-  _id: string
+  id: string
   role: 'admin' | 'user'
 }
 

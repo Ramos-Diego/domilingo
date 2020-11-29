@@ -40,7 +40,7 @@ const options: InitOptions = {
       // May use the profile.id to query database and get user's permissions
       if (!token.dominilingo) {
         token.dominilingo = {
-          _id: userFromDB._id,
+          id: userFromDB.id,
           role: userFromDB.dominilingo.role,
         }
       }

@@ -1,21 +1,27 @@
 import Head from 'next/head'
 import { GetStaticProps, InferGetStaticPropsType } from 'next'
-import { getApprovedWords } from '../utils/dbFunctions'
 import WordCard from '../components/WordCard'
 import { Word } from '../lib/data-types'
 import NavBar from '../components/NavBar'
+import { connectToDatabase } from '../utils/mongodb'
 
 export const getStaticProps: GetStaticProps<{
-  staticProps: Word[]
+  words: Word[]
 }> = async () => {
-  const staticProps = JSON.parse(await getApprovedWords(true))
+  const { db } = await connectToDatabase()
 
-  return { props: { staticProps }, revalidate: 30 }
+  const words = await db
+    .collection('words')
+    .find({ approved: true }, { projection: { _id: 0 } })
+    // Collation allows for case insentive sorting
+    .collation({ locale: 'en' })
+    .sort({ word: 1 })
+    .toArray()
+
+  return { props: { words }, revalidate: 30 }
 }
 
-export default function Home({
-  staticProps,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+export default function Home({ words }: { words: Word[] }) {
   return (
     <>
       <NavBar />
@@ -25,7 +31,7 @@ export default function Home({
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <div className="grid gap-3">
-          {staticProps?.map((word, idx) => {
+          {words?.map((word, idx) => {
             return <WordCard word={word} key={idx} />
           })}
         </div>

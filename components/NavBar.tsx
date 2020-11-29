@@ -58,8 +58,8 @@ export default function NavBar() {
           </button>
           <div className={menu ? '' : 'hidden'}>
             <div className="grid overflow-hidden origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-gray-700 ring-2 ring-gray-500">
-              {router.asPath !== `/${user?.dominilingo?._id}` && (
-                <Link href={`/${user?.dominilingo?._id}`} passHref>
+              {router.asPath !== `/${user?.dominilingo?.id}` && (
+                <Link href={`/${user?.dominilingo?.id}`} passHref>
                   <a className="px-4 py-2 text-gray-100 hover:bg-gray-900 hover:text-gray-100">
                     Profile
                   </a>

@@ -52,7 +52,7 @@ export default function WordCard({ word }: { word: Word }) {
             <div className="flex justify-start gap-2">
               <Button
                 onClick={async () => {
-                  await deleteWordFetch(word._id)
+                  await deleteWordFetch(word.slug)
                   // Trigger a revalidation/update the cache when the promise resolves
                   router.pathname === '/' && trigger('/api/db')
                   router.pathname === '/admin/approve' && trigger('/api/admin')
@@ -63,7 +63,7 @@ export default function WordCard({ word }: { word: Word }) {
               {!word.approved && (
                 <Button
                   onClick={async () => {
-                    await approveWordFetch(word._id)
+                    await approveWordFetch(word.slug)
                     // Trigger a revalidation/update the cache when the promise resolves
                     trigger('/api/admin')
                   }}
