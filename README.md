@@ -14,6 +14,7 @@ A dictionary of Dominican slang.
 - [x] Persist custom user data in database (id/roles)
 - [x] Generate slugs for word paths (/d/[slug])
 - [x] Implement SWR
+- [x] Search by word
 - [ ] Translate site to Spanish
 - [ ] Limit example sentence length to use in Tweet button
 - [ ] Implement pagination or Infinite scroll
@@ -22,7 +23,6 @@ A dictionary of Dominican slang.
 - [ ] Sort words by letter, alphabetical descending order
 - [ ] Trending page or word
 - [ ] Implement word of the day
-- [ ] Search by word
 - [ ] Add word tags upon creation or edition
 - [ ] Search by word tags
 
