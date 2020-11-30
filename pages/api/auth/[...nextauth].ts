@@ -7,10 +7,6 @@ import { GetUserOrSaveNewUser } from '../../../utils/dbFunctions'
 
 const options: InitOptions = {
   providers: [
-    Providers.GitHub({
-      clientId: process.env.GITHUB_ID || '',
-      clientSecret: process.env.GITHUB_SECRET || '',
-    }),
     Providers.Google({
       clientId: process.env.GOOGLE_CLIENT_ID || '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
@@ -42,7 +38,7 @@ const options: InitOptions = {
       // May use the profile.id to query database and get user's permissions
       if (!token.dominilingo) {
         token.dominilingo = {
-          _id: userFromDB._id,
+          id: userFromDB.id,
           role: userFromDB.dominilingo.role,
         }
       }
