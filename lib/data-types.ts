@@ -51,15 +51,16 @@ export type GlobalContextType = {
 }
 
 export type State = {
-  wordId: string
-  edit: boolean
-  deleted: string[]
-  dropdownMenu: boolean
+  searchResults: []
+  loadedWords: Word[]
+  searching: boolean
 }
 
 export type Actions = {
-  type: 'EDIT' | 'USE_EFFECT' | 'DELETE' | 'DROPDOWN'
-  _id?: string
+  type: 'SEARCH' | 'LOAD' | 'SEARCHING'
+  loadedWords?: Word[]
+  filteredWords?: Word[]
+  searching?: string
 }
 
 export type EditWordForm = {

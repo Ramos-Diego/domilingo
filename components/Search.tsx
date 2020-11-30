@@ -1,29 +1,37 @@
 import Input from './Input'
 import { useForm } from 'react-hook-form'
+import { useEffect } from 'react'
+import { useContext } from 'react'
+import { GlobalContext } from '../context/GlobalState'
 
 export default function Search() {
-  const { register, handleSubmit } = useForm()
+  const { state, dispatch } = useContext(GlobalContext)
+  const { register, watch, handleSubmit } = useForm()
+  const searchValue: string = watch('search')
 
-  const test = ['abc', 'ert']
-
-  // Todo: This search filter doesn't work.
-  const search = async ({ search }: { search: string }) => {
-    const result = test
-      .filter((word) => word.includes(search))
-      .map((filtered) => {
-        filtered
-      })
-    console.log({ result })
-  }
+  useEffect(() => {
+    // If the search value length is greater than 0, set SEARCHING state to true
+    dispatch({ type: 'SEARCHING', searching: searchValue })
+    // Filter the loaded words
+    if (searchValue) {
+      const filter = state.loadedWords.filter((word) =>
+        word.word.toLowerCase().startsWith(searchValue.toLowerCase())
+      )
+      // Set the search results to the filtered output
+      dispatch({ type: 'SEARCH', filteredWords: filter })
+    }
+  }, [searchValue])
 
   return (
-    <form onSubmit={handleSubmit(search)}>
-      <Input
-        type="text"
-        name="search"
-        register={register({ required: true })}
-        placeholder="Search"
-      />
-    </form>
+    <>
+      <form onSubmit={handleSubmit((_) => null)}>
+        <Input
+          type="text"
+          name="search"
+          register={register({ required: true })}
+          placeholder="Search"
+        />
+      </form>
+    </>
   )
 }
