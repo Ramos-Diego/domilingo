@@ -20,12 +20,14 @@ export default function WordCard({ word }: { word: Word }) {
           </Link>
         </div>
         <a
+          rel="noopener noreferrer"
           target="_blank"
           className="flex items-center gap-2 bg-blue-600 rounded px-2 p-1"
           href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
-            `Hoy aprendí que significa ${word.word} en @Dominilingo! #DOMINILINGO dominilingo.com/d/${word.slug}`
+            `Hoy aprendí que significa ${word.word} en @Dominilingo! dominilingo.com/d/${word.slug}`
           )}`}
         >
+          Tweet
           <FaTwitter className="text-blue-50" />
         </a>
       </div>

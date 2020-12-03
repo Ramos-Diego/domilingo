@@ -25,11 +25,16 @@ export default function Search() {
   return (
     <>
       <form onSubmit={handleSubmit((_) => null)}>
-        <Input
+        <label htmlFor="search" className="absolute">
+          Search
+        </label>
+        <input
+          id="search"
           type="text"
           name="search"
-          register={register({ required: true })}
           placeholder="Search"
+          ref={register({ required: true })}
+          className="relative shadow appearance-none rounded w-full py-2 px-3 bg-gray-900 text-white leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
         />
       </form>
     </>

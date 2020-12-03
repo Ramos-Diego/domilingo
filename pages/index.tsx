@@ -34,9 +34,8 @@ export default function Home({ words }: { words: Word[] }) {
       <NavBar />
       <Head>
         <title>Dominilingo</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="mx-auto max-w-lg my-4 ">
+      <main className="mx-auto max-w-lg my-4 ">
         <div className="grid gap-3">
           {state.searching ? (
             <>
@@ -52,7 +51,7 @@ export default function Home({ words }: { words: Word[] }) {
             </>
           )}
         </div>
-      </div>
+      </main>
     </>
   )
 }
