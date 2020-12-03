@@ -1,4 +1,2 @@
 User-agent: *
-Disallow: /api/
-Disallow: /css/
-Disallow: /js/
+Allow: /
