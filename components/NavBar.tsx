@@ -29,7 +29,7 @@ export default function NavBar() {
   }, []) // Empty array ensures that effect is only run on mount and unmount
 
   return (
-    <div className="grid grid-flow-col justify-between place-items-center bg-gray-800 py-2 px-3">
+    <nav className="grid grid-flow-col justify-between place-items-center bg-gray-800 py-2 px-3">
       <Link href="/" passHref>
         <a tabIndex={-1}>DOMINILINGO</a>
       </Link>
@@ -96,6 +96,6 @@ export default function NavBar() {
           <Button onClick={() => signIn('google')}>Sign In With Google</Button>
         )}
       </>
-    </div>
+    </nav>
   )
 }

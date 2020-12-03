@@ -38,10 +38,9 @@ export default function Approve({ words }: { words: Word[] }) {
   return (
     <>
       <NavBar />
-      <div className="mx-auto max-w-lg mt-4">
+      <main className="mx-auto max-w-lg mt-4">
         <Head>
           <title>Dominilingo</title>
-          <link rel="icon" href="/favicon.ico" />
         </Head>
         {unapprovedWords?.length === 0 ? (
           <div>There is nothing here.</div>
@@ -52,7 +51,7 @@ export default function Approve({ words }: { words: Word[] }) {
             })}
           </div>
         )}
-      </div>
+      </main>
     </>
   )
 }

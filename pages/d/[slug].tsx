@@ -54,11 +54,10 @@ export default function Slug({ word }: { word: Word }) {
       <NavBar />
       <Head>
         <title>{word.word}</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="mx-auto max-w-lg mt-4">
+      <main className="mx-auto max-w-lg mt-4">
         <WordCard word={word} />
-      </div>
+      </main>
     </>
   )
 }

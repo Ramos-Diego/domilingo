@@ -51,15 +51,14 @@ export default function uid({ words }: { words: Word[] }) {
       <NavBar />
       <Head>
         <title>Add new word</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="mx-auto max-w-lg mt-4">
+      <main className="mx-auto max-w-lg mt-4">
         <div className="grid gap-3">
           {words.map((item, idx) => {
             return <WordCard word={item} key={idx} />
           })}
         </div>
-      </div>
+      </main>
     </>
   )
 }

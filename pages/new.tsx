@@ -23,10 +23,9 @@ export default function New() {
     <>
       <Head>
         <title>Add new word</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <NavBar />
-      <div className="mx-auto max-w-lg mt-4">
+      <main className="mx-auto max-w-lg mt-4">
         <p className="font-sans text-xl font-bold text-center mb-4 uppercase">
           Add a word to the dictionary
         </p>
@@ -73,7 +72,7 @@ export default function New() {
             Submit
           </button>
         </form>
-      </div>
+      </main>
     </>
   )
 }
