@@ -34,16 +34,21 @@ export default function New() {
         <form
           className="grid gap-3 bg-gray-800 shadow-md rounded px-8 pt-6 pb-8 mb-4"
           onSubmit={handleSubmit(async (data: NewWordForm, e) => {
-            dispatch({ type: 'EDIT' })
-            const response = await updateWordFetch(data, state.wordToEdit.slug)
-            if (response.ok) {
-              e?.target.reset()
-              // updateWordFetch returns the slug correspoding to the edited word
-              const { slug } = await response.json()
-              // Redirect user to slug page using Window.location
-              location.assign(`/d/${slug}`)
-            } else {
-              location.assign('/')
+            if (state?.wordToEdit?.slug) {
+              dispatch({ type: 'EDIT' })
+              const response = await updateWordFetch(
+                data,
+                state.wordToEdit.slug
+              )
+              if (response.ok) {
+                e?.target.reset()
+                // updateWordFetch returns the slug correspoding to the edited word
+                const { slug } = await response.json()
+                // Redirect user to slug page using Window.location
+                location.assign(`/d/${slug}`)
+              } else {
+                location.assign('/')
+              }
             }
           })}
         >
