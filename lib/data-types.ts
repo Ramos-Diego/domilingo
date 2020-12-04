@@ -53,24 +53,29 @@ export type GlobalContextType = {
 export type State = {
   searchResults: []
   loadedWords: Word[]
+  wordToEdit: Word | undefined
   searching: boolean
+  editing: boolean
 }
 
 export type Actions = {
-  type: 'SEARCH' | 'LOAD' | 'SEARCHING'
+  type: 'SEARCH' | 'LOAD' | 'SEARCHING' | 'EDIT'
   loadedWords?: Word[]
   filteredWords?: Word[]
   searching?: string
+  wordToEdit?: Word
 }
 
 export type EditWordForm = {
   word: string
   definition: string
   example: string
+  tags: string
 }
 
 export type NewWordForm = {
   word: string
   definition: string
   example: string
+  tags: string
 }

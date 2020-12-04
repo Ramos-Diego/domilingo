@@ -1,4 +1,4 @@
-# [Domilingo](https://dominilingo.com/)
+# [Domilingo](https://domilingo.com/)
 
 A dictionary of Dominican slang.
 
@@ -17,6 +17,7 @@ A dictionary of Dominican slang.
 - [x] Search by word
 - [x] Limit example sentence length to use in Tweet button
 - [x] Prevent duplicate entries
+- [x] Add tags
 - [ ] Add edit word feature
 - [ ] Translate site to Spanish
 - [ ] Implement pagination or Infinite scroll
@@ -24,7 +25,6 @@ A dictionary of Dominican slang.
 - [ ] Sort words by letter, alphabetical descending order
 - [ ] Trending page or word
 - [ ] Implement word of the day
-- [ ] Add word tags upon creation or edition
 - [ ] Search by word tags
 
 ### ADMINS

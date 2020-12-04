@@ -6,8 +6,11 @@ import { approveWordFetch, deleteWordFetch } from '../utils/client'
 import { trigger } from 'swr'
 import { useRouter } from 'next/router'
 import { FaTwitter } from 'react-icons/fa'
+import { useContext } from 'react'
+import { GlobalContext } from '../context/GlobalState'
 
 export default function WordCard({ word }: { word: Word }) {
+  const { dispatch } = useContext(GlobalContext)
   const router = useRouter()
   const [session]: ExtendedUseSession = useSession()
   const date = new Date(word.created)
@@ -80,9 +83,11 @@ export default function WordCard({ word }: { word: Word }) {
                 </Button>
               )}
               <Button
-                onClick={() =>
-                  console.log('edit funciton does not exist, yet.')
-                }
+                onClick={() => {
+                  dispatch({ type: 'EDIT', wordToEdit: word })
+                  console.log(word)
+                  router.push('/edit')
+                }}
               >
                 Edit
               </Button>

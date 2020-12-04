@@ -3,14 +3,16 @@ import Alert from '../components/Alert'
 import { useForm } from 'react-hook-form'
 import { useSession } from 'next-auth/client'
 import { NewWordForm } from '../lib/data-types'
-import { createWordFetch } from '../utils/client'
+import { updateWordFetch } from '../utils/client'
 import NavBar from '../components/NavBar'
 import { useState } from 'react'
+import { useContext } from 'react'
+import { GlobalContext } from '../context/GlobalState'
 
 export default function New() {
+  const { state, dispatch } = useContext(GlobalContext)
   const { register, handleSubmit, errors } = useForm()
   const [session, loading] = useSession()
-  const [sumitted, setSumitted] = useState(false)
   const [duplicateError, setDuplicateError] = useState(false)
 
   if (loading) return null
@@ -22,29 +24,26 @@ export default function New() {
   return (
     <>
       <Head>
-        <title>Add new word</title>
+        <title>Edit</title>
       </Head>
       <NavBar />
       <main className="mx-auto max-w-lg mt-4">
         <p className="font-sans text-xl font-bold text-center mb-4 uppercase">
-          Add a word to the dictionary
+          Edit
         </p>
         <form
           className="grid gap-3 bg-gray-800 shadow-md rounded px-8 pt-6 pb-8 mb-4"
           onSubmit={handleSubmit(async (data: NewWordForm, e) => {
-            setSumitted(true)
-            const response = await createWordFetch(data)
+            dispatch({ type: 'EDIT' })
+            const response = await updateWordFetch(data, state.wordToEdit.slug)
             if (response.ok) {
               e?.target.reset()
-              // createWordFetch returns the slug correspoding to the new word
+              // updateWordFetch returns the slug correspoding to the edited word
               const { slug } = await response.json()
-              // Redirect user to new page using Window.location
+              // Redirect user to slug page using Window.location
               location.assign(`/d/${slug}`)
             } else {
-              setSumitted(false)
-              // TODO: Make type for errors
-              const data = await response.json()
-              if (data.error === 'slug_already_exists') setDuplicateError(true)
+              location.assign('/')
             }
           })}
         >
@@ -54,8 +53,7 @@ export default function New() {
               className="shadow appearance-none rounded w-full py-2 px-3 bg-gray-900 text-white leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
               name="word"
               ref={register({ required: true })}
-              placeholder="Enter word"
-              onFocus={() => setDuplicateError(false)}
+              defaultValue={state.editing ? state.wordToEdit?.word : undefined}
             />
           </label>
           {duplicateError && <Alert message="This word already exists." />}
@@ -67,6 +65,11 @@ export default function New() {
               name="definition"
               rows={4}
               ref={register({ required: true })}
+              defaultValue={
+                state.editing
+                  ? state.wordToEdit?.definitions[0].definition
+                  : undefined
+              }
               placeholder="Enter definition"
             />
           </label>
@@ -77,6 +80,11 @@ export default function New() {
               className="shadow appearance-none rounded w-full py-2 px-3 bg-gray-900 text-white leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
               name="example"
               ref={register({ required: true })}
+              defaultValue={
+                state.editing
+                  ? state.wordToEdit?.definitions[0].examples[0]
+                  : undefined
+              }
               placeholder="Enter sentence"
             />
           </label>
@@ -87,15 +95,17 @@ export default function New() {
               className="shadow appearance-none rounded w-full py-2 px-3 bg-gray-900 text-white leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
               name="tags"
               ref={register({ required: false })}
+              defaultValue={
+                state.editing ? state.wordToEdit?.tags?.join() : undefined
+              }
               placeholder="Enter tags"
             />
           </label>
           <button
             className="block bg-blue-500 hover:bg-blue-700 focus:bg-blue-700 focus:outline-none text-white font-bold text-sm py-2 px-4 rounded disabled:opacity-50"
             // Disable button so that user can't submit twice by accident
-            disabled={sumitted}
           >
-            Submit
+            Edit
           </button>
         </form>
       </main>

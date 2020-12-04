@@ -20,6 +20,12 @@ const AppReducer = (state: State, action: any) => {
         ...state,
         loadedWords: action.loadedWords,
       }
+    case 'EDIT':
+      return {
+        ...state,
+        wordToEdit: action.wordToEdit ? action.wordToEdit : undefined,
+        editing: action.wordToEdit ? true : false,
+      }
     default:
       return state
   }

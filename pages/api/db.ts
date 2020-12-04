@@ -3,7 +3,7 @@ import jwt from 'next-auth/jwt'
 import { connectToDatabase } from '../../utils/mongodb'
 import slugify from 'slugify'
 import { SessionUser } from '../../lib/data-types'
-import { object, string, size, is, pattern } from 'superstruct'
+import { object, string, size, pattern, assert } from 'superstruct'
 
 const secret = process.env.JWT_SECRET || ''
 
@@ -22,30 +22,35 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
             definition: pattern(string(), /.*\S.*/),
             // Non empty strings between 1 and 270 characters
             example: size(pattern(string(), /.*\S.*/), 1, 270),
+            // Coerce tags field because it's optional
+            tags: string(),
           })
-          // If the be body passes the superstruct test
-          if (is(req.body, wordForm)) {
-            const { db } = await connectToDatabase()
-            const slug = slugify(req.body.word.toLowerCase())
-            // Insert new word
-            await db.collection('words').insertOne({
-              word: req.body.word,
-              slug: slug,
-              approved: token.domilingo?.role === 'admin' ? true : false,
-              definitions: [
-                {
-                  definition: req.body.definition,
-                  examples: [req.body.example],
-                },
-              ],
-              createdBy: token.domilingo?.id,
-              created: Date.now(),
-            })
+          // If the be req.body doesn't pass the superstruct test
+          // It will throw an error, thus jumping to the catch section
+          assert(req.body, wordForm)
 
-            res.status(201)
-            // Return the generated slug so user can be redirected
-            res.json({ slug })
-          }
+          const { db } = await connectToDatabase()
+          const slug = slugify(req.body.word.toLowerCase())
+          // Insert new word
+          await db.collection('words').insertOne({
+            word: req.body.word,
+            slug: slug,
+            approved: token.domilingo?.role === 'admin' ? true : false,
+            definitions: [
+              {
+                definition: req.body.definition,
+                examples: [req.body.example],
+              },
+            ],
+            createdBy: token.domilingo?.id,
+            // Convert comma separated string into an array of strings
+            tags: req.body.tags.split(/\s*(?:,|$)\s*/),
+            created: Date.now(),
+          })
+
+          res.status(201)
+          // Return the generated slug so user can be redirected
+          res.json({ slug })
         } catch (e) {
           res.status(400)
           // MongoDB will return an error if tried to insert a slug that already exists
@@ -69,24 +74,29 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
               }
             )
             // Word was approved
-            res.status(201)
+            res.status(200)
           } else {
+            const newSlug = slugify(req.body.word.toLowerCase())
             await db.collection('words').updateOne(
               { slug: req.body.slug },
               {
                 $set: {
                   word: req.body.word,
-                  slug: slugify(req.body.word),
+                  slug: newSlug,
                   'definitions.0.definition': req.body.definition,
                   'definitions.0.examples.0': req.body.example,
+                  tags: req.body.tags.split(/\s*(?:,|$)\s*/),
                 },
               }
             )
             // Word was edited
-            res.status(201)
+            res.status(200)
+            // Return the generated slug so user can be redirected
+            res.json({ slug: newSlug })
           }
         } catch (e) {
           res.status(400)
+          console.log(e)
         }
         break
       }
@@ -96,7 +106,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
           if (token.domilingo?.role === 'admin') {
             await db.collection('words').deleteOne({ slug: req.body.slug })
             // Word was deleted
-            res.status(201)
+            res.status(200)
           }
         } catch (e) {
           res.status(400)

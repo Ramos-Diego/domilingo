@@ -10,13 +10,13 @@ export const createWordFetch = (data: NewWordForm) => {
   })
 }
 
-export const updateWordFetch = (word: Word, data: EditWordForm) => {
+export const updateWordFetch = (data: EditWordForm, slug: string) => {
   return fetch('/api/db', {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ ...data, _id: word._id }),
+    body: JSON.stringify({ ...data, slug }),
   })
 }
 

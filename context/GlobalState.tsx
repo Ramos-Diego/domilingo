@@ -5,7 +5,9 @@ import AppReducer from './AppReducer'
 const initialState: State = {
   searchResults: [],
   loadedWords: [],
+  wordToEdit: undefined,
   searching: false,
+  editing: false,
 }
 
 // The global context becomes a single source of truth
