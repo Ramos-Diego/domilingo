@@ -31,7 +31,7 @@ export default function NavBar() {
   return (
     <nav className="grid grid-flow-col justify-between place-items-center bg-gray-800 py-2 px-3">
       <Link href="/" passHref>
-        <a tabIndex={-1}>DOMINILINGO</a>
+        <a tabIndex={-1}>DOMILINGO</a>
       </Link>
       <>
         {(router.asPath === '/' || router.asPath === '/#') && <Search />}
@@ -61,15 +61,15 @@ export default function NavBar() {
             </button>
             <div className={menu ? '' : 'hidden'}>
               <div className="grid overflow-hidden origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-gray-700 ring-2 ring-gray-500">
-                {router.asPath !== `/${user?.dominilingo?.id}` && (
-                  <Link href={`/${user?.dominilingo?.id}`} passHref>
+                {router.asPath !== `/${user?.domilingo?.id}` && (
+                  <Link href={`/${user?.domilingo?.id}`} passHref>
                     <a className="px-4 py-2 text-gray-100 hover:bg-gray-900 hover:text-gray-100">
                       Profile
                     </a>
                   </Link>
                 )}
                 {router.asPath !== '/admin/approve' &&
-                  user?.dominilingo?.role === 'admin' && (
+                  user?.domilingo?.role === 'admin' && (
                     <Link href={'/admin/approve'} passHref>
                       <a className="px-4 py-2 text-gray-100 hover:bg-gray-900 hover:text-gray-100">
                         Admin

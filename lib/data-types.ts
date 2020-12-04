@@ -24,7 +24,7 @@ export interface Word {
   coiner?: string
 }
 
-export interface DominilingoUser {
+export interface DomilingoUser {
   id: string
   role: 'admin' | 'user'
 }
@@ -33,7 +33,7 @@ export interface SessionUser {
   name?: string | null
   email?: string | null
   image?: string | null
-  dominilingo?: DominilingoUser
+  domilingo?: DomilingoUser
 }
 
 export type ExtendedUseSession = [

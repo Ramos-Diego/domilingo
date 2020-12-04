@@ -14,7 +14,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="description"
-          content="Dominilingo is the dominican slang dictionary."
+          content="Domilingo is the dominican slang dictionary."
         />
         <meta name="keywords" content="Dictionary" />
 

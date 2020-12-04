@@ -33,7 +33,7 @@ export default function Home({ words }: { words: Word[] }) {
     <>
       <NavBar />
       <Head>
-        <title>Dominilingo</title>
+        <title>Domilingo</title>
       </Head>
       <main className="mx-auto max-w-lg my-4 ">
         <div className="grid gap-3">

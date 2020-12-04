@@ -32,7 +32,7 @@ export default function Approve({ words }: { words: Word[] }) {
   })
 
   // Protect admin route
-  if (!session || session.user.dominilingo?.role !== 'admin')
+  if (!session || session.user.domilingo?.role !== 'admin')
     return <div>Access denied.</div>
 
   return (
@@ -40,7 +40,7 @@ export default function Approve({ words }: { words: Word[] }) {
       <NavBar />
       <main className="mx-auto max-w-lg mt-4">
         <Head>
-          <title>Dominilingo</title>
+          <title>Admin</title>
         </Head>
         {unapprovedWords?.length === 0 ? (
           <div>There is nothing here.</div>

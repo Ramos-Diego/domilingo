@@ -1,4 +1,4 @@
-# [Dominilingo](https://dominilingo.com/)
+# [Domilingo](https://domilingo.com/)
 
 A dictionary of Dominican slang.
 
@@ -15,10 +15,11 @@ A dictionary of Dominican slang.
 - [x] Generate slugs for word paths (/d/[slug])
 - [x] Implement SWR
 - [x] Search by word
+- [x] Limit example sentence length to use in Tweet button
+- [x] Prevent duplicate entries
+- [ ] Add edit word feature
 - [ ] Translate site to Spanish
-- [ ] Limit example sentence length to use in Tweet button
 - [ ] Implement pagination or Infinite scroll
-- [ ] Prevent duplicate entries
 - [ ] Allow users to create a username
 - [ ] Sort words by letter, alphabetical descending order
 - [ ] Trending page or word
@@ -30,7 +31,7 @@ A dictionary of Dominican slang.
 
 - [x] Edit and delete user submissions
 - [x] Create APPROVE function for user submissions
-- [ ] Automatically approve admin submissions
+- [x] Automatically approve admin submissions
 - [ ] Ask for confirmation to delete word
 - [ ] Bulk submissions
 
@@ -38,7 +39,7 @@ A dictionary of Dominican slang.
 
 - [x] Add a word and a definition
 - [x] Add example sentences
-- [ ] Provide feedback upon word sumission
+- [x] Provide feedback upon word sumission
 - [ ] Limit daily submissions
 - [ ] Add tags to words
 - [ ] Suggest an edit on any word or definition

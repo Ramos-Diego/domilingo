@@ -36,10 +36,10 @@ const options: InitOptions = {
       // This will be true only when the user logs in.
       // Use this statement to add any information neede in the JWT
       // May use the profile.id to query database and get user's permissions
-      if (!token.dominilingo) {
-        token.dominilingo = {
+      if (!token.domilingo) {
+        token.domilingo = {
           id: userFromDB.id,
-          role: userFromDB.dominilingo.role,
+          role: userFromDB.domilingo.role,
         }
       }
 
@@ -56,7 +56,7 @@ const options: InitOptions = {
         ...session,
         user: {
           ...session.user,
-          dominilingo: jwt.dominilingo,
+          domilingo: jwt.domilingo,
         },
       })
     },
