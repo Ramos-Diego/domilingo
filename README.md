@@ -1,4 +1,4 @@
-# [Dominilingo](https://dominilingo.com/)
+# [Domilingo](https://domilingo.com/)
 
 A dictionary of Dominican slang.
 

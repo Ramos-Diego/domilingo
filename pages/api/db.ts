@@ -26,19 +26,19 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
           // If the be body passes the superstruct test
           if (is(req.body, wordForm)) {
             const { db } = await connectToDatabase()
-            const slug = slugify(req.body.word)
+            const slug = slugify(req.body.word.toLowerCase())
             // Insert new word
             await db.collection('words').insertOne({
               word: req.body.word,
               slug: slug,
-              approved: token.dominilingo?.role === 'admin' ? true : false,
+              approved: token.domilingo?.role === 'admin' ? true : false,
               definitions: [
                 {
                   definition: req.body.definition,
                   examples: [req.body.example],
                 },
               ],
-              createdBy: token.dominilingo?.id,
+              createdBy: token.domilingo?.id,
               created: Date.now(),
             })
 
@@ -59,7 +59,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         // Case when admin approves one word
         try {
           const { db } = await connectToDatabase()
-          if (token.dominilingo?.role === 'admin' && req.body.approval) {
+          if (token.domilingo?.role === 'admin' && req.body.approval) {
             await db.collection('words').updateOne(
               { slug: req.body.slug },
               {
@@ -93,7 +93,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       case 'DELETE': {
         try {
           const { db } = await connectToDatabase()
-          if (token.dominilingo?.role === 'admin') {
+          if (token.domilingo?.role === 'admin') {
             await db.collection('words').deleteOne({ slug: req.body.slug })
             // Word was deleted
             res.status(201)

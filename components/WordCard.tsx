@@ -10,6 +10,12 @@ import { FaTwitter } from 'react-icons/fa'
 export default function WordCard({ word }: { word: Word }) {
   const router = useRouter()
   const [session]: ExtendedUseSession = useSession()
+  const date = new Date(word.created)
+  const dateString = date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  })
 
   return (
     <div className="grid gap-2 rounded bg-gray-800 p-3">
@@ -24,7 +30,7 @@ export default function WordCard({ word }: { word: Word }) {
           target="_blank"
           className="flex items-center gap-2 bg-blue-600 rounded px-2 p-1"
           href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
-            `Hoy aprendí que significa ${word.word} en @Dominilingo! dominilingo.com/d/${word.slug}`
+            `${word.definitions[0].examples[0]} @Domilingo domilingo.com/d/${word.slug}`
           )}`}
         >
           Tweet
@@ -47,10 +53,10 @@ export default function WordCard({ word }: { word: Word }) {
           )
         })}
       </div>
-
+      <div>{dateString}</div>
       {session && (
         <>
-          {session.user.dominilingo?.role === 'admin' && (
+          {session.user.domilingo?.role === 'admin' && (
             <div className="flex justify-start gap-2">
               <Button
                 onClick={async () => {
