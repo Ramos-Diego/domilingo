@@ -12,6 +12,7 @@ export default function New() {
   const { register, handleSubmit, errors } = useForm()
   const [session, loading] = useSession()
   const [sumitted, setSumitted] = useState(false)
+  const [duplicateError, setDuplicateError] = useState(false)
 
   if (loading) return null
 
@@ -32,22 +33,32 @@ export default function New() {
         <form
           className="grid gap-3 bg-gray-800 shadow-md rounded px-8 pt-6 pb-8 mb-4"
           onSubmit={handleSubmit(async (data: NewWordForm, e) => {
-            e?.target.reset()
-            setSumitted(true)
-            // createWordFetch returns the slug correspoding to the new word
             const response = await createWordFetch(data)
-            const { slug } = await response.json()
-            // Redirect user to new page using Window.location
-            location.assign(`/d/${slug}`)
+            if (response.ok) {
+              e?.target.reset()
+              setSumitted(true)
+              // createWordFetch returns the slug correspoding to the new word
+              const { slug } = await response.json()
+              // Redirect user to new page using Window.location
+              location.assign(`/d/${slug}`)
+            } else {
+              // TODO: Make type for errors
+              const data = await response.json()
+              if (data.error === 'slug_already_exists') setDuplicateError(true)
+            }
           })}
         >
-          <Input
-            type="text"
-            label="Word"
-            name="word"
-            register={register({ required: true })}
-            placeholder="Enter word"
-          />
+          <label className="font-bold">
+            Word
+            <input
+              className="shadow appearance-none rounded w-full py-2 px-3 bg-gray-900 text-white leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+              name="word"
+              ref={register({ required: true })}
+              placeholder="Enter word"
+              onFocus={() => setDuplicateError(false)}
+            />
+          </label>
+          {duplicateError && <Alert message="This word already exists." />}
           {errors.word && <Alert message="The word is required" />}
           <Input
             type="textarea"
