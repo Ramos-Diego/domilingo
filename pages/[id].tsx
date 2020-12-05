@@ -2,8 +2,9 @@ import Head from 'next/head'
 import WordCard from '../components/WordCard'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { Word } from '../lib/data-types'
-import NavBar from '../components/NavBar'
 import { connectToDatabase } from '../utils/mongodb'
+import Layout from '../components/Layout'
+import Link from 'next/link'
 
 export const getStaticPaths: GetStaticPaths<{ id: string }> = async () => {
   const { db } = await connectToDatabase()
@@ -47,18 +48,26 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 export default function uid({ words }: { words: Word[] }) {
   return (
-    <>
-      <NavBar />
+    <Layout>
       <Head>
         <title>Add new word</title>
       </Head>
-      <main className="mx-auto max-w-lg mt-4">
+      {words.length === 0 ? (
+        <div className="grid gap-3 justify-items-center">
+          <div>You have not submitted any words.</div>
+          <Link href="/new">
+            <a className="bg-gray-900 p-2 rounded font-semibold">
+              Submit a word now!
+            </a>
+          </Link>
+        </div>
+      ) : (
         <div className="grid gap-3">
           {words.map((item, idx) => {
             return <WordCard word={item} key={idx} />
           })}
         </div>
-      </main>
-    </>
+      )}
+    </Layout>
   )
 }

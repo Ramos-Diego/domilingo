@@ -18,14 +18,23 @@ A dictionary of Dominican slang.
 - [x] Limit example sentence length to use in Tweet button
 - [x] Prevent duplicate entries
 - [x] Add tags
-- [ ] Add edit word feature
+- [x] Add edit word feature
+- [x] Sort words randomly
 - [ ] Translate site to Spanish
 - [ ] Implement pagination or Infinite scroll
 - [ ] Allow users to create a username
-- [ ] Sort words by letter, alphabetical descending order
-- [ ] Trending page or word
+- [ ] Trending page
 - [ ] Implement word of the day
 - [ ] Search by word tags
+
+### USERS
+
+- [x] Add a word and a definition
+- [x] Add example sentences
+- [x] Provide feedback upon word sumission
+- [ ] Limit daily submissions
+- [ ] Explain to user that words must be approved
+- [ ] Suggest an edit on any word or definition
 
 ### ADMINS
 
@@ -34,12 +43,3 @@ A dictionary of Dominican slang.
 - [x] Automatically approve admin submissions
 - [ ] Ask for confirmation to delete word
 - [ ] Bulk submissions
-
-### USERS
-
-- [x] Add a word and a definition
-- [x] Add example sentences
-- [x] Provide feedback upon word sumission
-- [ ] Limit daily submissions
-- [ ] Add tags to words
-- [ ] Suggest an edit on any word or definition
