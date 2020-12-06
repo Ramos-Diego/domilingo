@@ -129,7 +129,7 @@ export default function NavBar() {
                 className="block bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 focus:outline-none text-white font-semibold px-2 py-1 rounded"
                 onClick={() => signIn('google')}
               >
-                Google Sign In
+                Sign In
               </button>
             )}
           </>

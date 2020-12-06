@@ -34,7 +34,7 @@ export default function Home({ words }: { words: Word[] }) {
       <Head>
         <title>Domilingo</title>
       </Head>
-      <div className="grid gap-3">
+      <div className="grid gap-1 sm:gap-3">
         {state.searching ? (
           <>
             {state.searchResults?.map((word, idx) => {
