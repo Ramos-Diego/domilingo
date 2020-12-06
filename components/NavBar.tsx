@@ -29,7 +29,7 @@ export default function NavBar() {
   }, []) // Empty array ensures that effect is only run on mount and unmount
 
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-gray-800 flex justify-between place-items-center py-2 px-3 max-w-screen-lg mx-auto">
+    <nav className="fixed top-0 left-0 right-0 bg-gray-800 flex gap-1 justify-between place-items-center py-2 px-3 max-w-screen-lg mx-auto">
       <Link href="/" passHref>
         <a
           tabIndex={-1}
@@ -59,7 +59,13 @@ export default function NavBar() {
       </Link>
       {(router.asPath === '/' || router.asPath === '/#') && <Search />}
       <div>
-        {!loading && (
+        {loading ? (
+          <button
+            disabled
+            // Using relative and z-index to raise the img avobe the ESC button
+            className="relative z-10 block w-9 h-9 rounded-full overflow-hidden ring-2 ring-gray-600 focus:outline-none focus:ring-white"
+          ></button>
+        ) : (
           <>
             {menu && (
               <button
