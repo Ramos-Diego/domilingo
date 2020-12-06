@@ -78,17 +78,15 @@ const options = {
      * @return {object}            JSON Web Token that will be saved
      */
     jwt: async (token, user, account, profile, isNewUser) => {
-      // This function only runs when the user logs in
-      // becuase that's the only time the profile object exists
-      const userFromDB = await GetUserOrSaveNewUser(profile)
-
       // Attach the profile information provided to the JWT token
       // https://github.com/nextauthjs/next-auth/issues/649
 
       // This will be true only when the user logs in.
       // Use this statement to add any information neede in the JWT
-      // May use the profile.id to query database and get user's permissions
-      if (!token.domilingo) {
+      // You may use the profile.id to query database and find your custom data
+      if (user) {
+        const userFromDB = await GetUserOrSaveNewUser(profile)
+
         token.domilingo = {
           id: userFromDB.id,
           role: userFromDB.domilingo.role,
