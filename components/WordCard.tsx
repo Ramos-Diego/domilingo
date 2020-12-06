@@ -21,13 +21,7 @@ export default function WordCard({ word }: { word: Word }) {
   })
 
   return (
-    <div
-      className="grid gap-2 rounded bg-gray-900 p-3"
-      // Differentiate between a tap and click to treat element as a link
-      onTouchEnd={() => {
-        router.asPath === '/' && location.assign(`/d/${word.slug}`)
-      }}
-    >
+    <div className="grid gap-2 rounded bg-gray-900 p-3">
       <div className="flex gap-2 justify-between">
         <div className="text-lg font-extrabold overflow-x-auto">
           <Link href={`/d/${word.slug}`}>
