@@ -1,9 +1,9 @@
 import Head from 'next/head'
 import { GetStaticProps, GetStaticPaths } from 'next'
-import NavBar from '../../components/NavBar'
 import { Word } from '../../lib/data-types'
 import WordCard from '../../components/WordCard'
 import { connectToDatabase } from '../../utils/mongodb'
+import Layout from '../../components/Layout'
 
 export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
   const { db } = await connectToDatabase()
@@ -23,7 +23,9 @@ export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
   // IF FALLBACK IS FALSE NO PAGES WILL BE PRE-RENDERED AFTER BUILD
 }
 
-// getStaticProps generates an html file AT BUILD TIME using the props it returns
+// This function gets called at build time on server-side.
+// It may be called again, on a serverless function, if
+// revalidation is enabled and a new request comes in
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { db } = await connectToDatabase()
   const word = await db
@@ -50,14 +52,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 export default function Slug({ word }: { word: Word }) {
   return (
-    <>
-      <NavBar />
+    <Layout>
       <Head>
         <title>{word.word}</title>
       </Head>
-      <main className="mx-auto max-w-lg mt-4">
-        <WordCard word={word} />
-      </main>
-    </>
+      <WordCard word={word} />
+    </Layout>
   )
 }

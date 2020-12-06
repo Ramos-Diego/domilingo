@@ -15,10 +15,11 @@ const AppReducer = (state: State, action: any) => {
         ...state,
         searchResults: action.filteredWords,
       }
-    case 'LOAD':
+    case 'LOAD_AND_SHUFFLE':
       return {
         ...state,
         loadedWords: action.loadedWords,
+        shuffledWords: action.loadedWords.sort(() => Math.random() - 0.5),
       }
     case 'EDIT':
       return {

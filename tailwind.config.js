@@ -19,6 +19,11 @@ module.exports = {
   variants: {
     extend: {
       opacity: ['disabled'],
+      animation: ['hover'],
+      translate: ['group-hover'],
+      transitionDuration: ['hover'],
+      transitionProperty: ['hover'],
+      transitionTimingFunction: ['hover'],
     },
   },
   plugins: [],
