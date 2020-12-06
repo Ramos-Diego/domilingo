@@ -62,8 +62,9 @@ const options = {
      *                               JSON Web Token (if not using database sessions)
      * @return {object}              Session that will be returned to the client
      */
-    session: async (session, user) => {
+    session: async (session, jwt) => {
       //session.customSessionProperty = 'bar'
+      session.user.domilingo = jwt.domilingo
       return Promise.resolve(session)
     },
 
