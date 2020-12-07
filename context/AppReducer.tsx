@@ -23,8 +23,14 @@ const AppReducer = (state: State, action: any) => {
     case 'EDIT':
       return {
         ...state,
-        wordToEdit: action.wordToEdit ? action.wordToEdit : undefined,
-        editing: action.wordToEdit ? true : false,
+        selectedWord: action.selectedWord ? action.selectedWord : undefined,
+        editing: action.selectedWord ? true : false,
+      }
+    case 'DELETE':
+      return {
+        ...state,
+        selectedWord: action.selectedWord ? action.selectedWord : undefined,
+        deleting: action.deleteState,
       }
     default:
       return state
