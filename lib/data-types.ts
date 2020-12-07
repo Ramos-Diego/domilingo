@@ -51,20 +51,21 @@ export type GlobalContextType = {
 }
 
 export type State = {
-  searchResults: []
+  searchResults: Word[]
   loadedWords: Word[]
-  shuffledWords: Word[]
-  wordToEdit: Word | undefined
+  selectedWord: Word | undefined
   searching: boolean
   editing: boolean
+  deleting: boolean
 }
 
 export type Actions = {
-  type: 'SEARCH' | 'SEARCHING' | 'EDIT' | 'LOAD_AND_SHUFFLE'
+  type: 'SEARCH' | 'SEARCHING' | 'EDIT' | 'LOAD' | 'DELETE'
+  deleteState?: boolean
   loadedWords?: Word[]
   filteredWords?: Word[]
   searching?: string
-  wordToEdit?: Word
+  selectedWord?: Word
 }
 
 export type EditWordForm = {

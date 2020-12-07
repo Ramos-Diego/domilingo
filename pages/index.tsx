@@ -12,13 +12,16 @@ export const getStaticProps: GetStaticProps<{
 }> = async () => {
   const { db } = await connectToDatabase()
 
-  const words = await db
+  const arr = await db
     .collection('words')
     .find({ approved: true }, { projection: { _id: 0 } })
     // Collation allows for case insentive sorting
     .collation({ locale: 'en' })
     .sort({ word: 1 })
     .toArray()
+
+  // Shuffle words
+  const words = arr.sort(() => Math.random() - 0.5)
 
   return { props: { words }, revalidate: 30 }
 }
@@ -27,7 +30,7 @@ export default function Home({ words }: { words: Word[] }) {
   const { state, dispatch } = useContext(GlobalContext)
   useEffect(() => {
     // Load and shuffle the words from getStaticProps on componentDidMount
-    dispatch({ type: 'LOAD_AND_SHUFFLE', loadedWords: words })
+    dispatch({ type: 'LOAD', loadedWords: words })
   }, [])
   return (
     <Layout>
@@ -43,7 +46,7 @@ export default function Home({ words }: { words: Word[] }) {
           </>
         ) : (
           <>
-            {state.shuffledWords?.map((word, idx) => {
+            {words.map((word, idx) => {
               return <WordCard word={word} key={idx} />
             })}
           </>

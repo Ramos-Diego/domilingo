@@ -1,14 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import jwt from 'next-auth/jwt'
-import { Word } from '../../lib/data-types'
 import { connectToDatabase } from '../../utils/mongodb'
-
-const secret = process.env.JWT_SECRET || ''
+import { getSession } from 'next-auth/client'
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
-  const token = await jwt.getToken({ req, secret })
+  const session = await getSession({ req })
 
-  if (token) {
+  if (session) {
     // Signed in
     switch (req.method) {
       case 'GET':

@@ -32,9 +32,12 @@ export default function New() {
       <form
         className="grid gap-3 bg-gray-800 shadow-md rounded px-8 pt-6 pb-8 mb-4"
         onSubmit={handleSubmit(async (data: NewWordForm, e) => {
-          if (state?.wordToEdit?.slug) {
+          if (state?.selectedWord?.slug) {
             dispatch({ type: 'EDIT' })
-            const response = await updateWordFetch(data, state.wordToEdit.slug)
+            const response = await updateWordFetch(
+              data,
+              state.selectedWord.slug
+            )
             if (response.ok) {
               e?.target.reset()
               // updateWordFetch returns the slug correspoding to the edited word
@@ -53,7 +56,7 @@ export default function New() {
             className="shadow appearance-none rounded w-full py-2 px-3 bg-gray-900 text-white leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
             name="word"
             ref={register({ required: true })}
-            defaultValue={state.editing ? state.wordToEdit?.word : undefined}
+            defaultValue={state.editing ? state.selectedWord?.word : undefined}
           />
         </label>
         {duplicateError && <Alert message="This word already exists." />}
@@ -67,7 +70,7 @@ export default function New() {
             ref={register({ required: true })}
             defaultValue={
               state.editing
-                ? state.wordToEdit?.definitions[0].definition
+                ? state.selectedWord?.definitions[0].definition
                 : undefined
             }
             placeholder="Enter definition"
@@ -82,7 +85,7 @@ export default function New() {
             ref={register({ required: true })}
             defaultValue={
               state.editing
-                ? state.wordToEdit?.definitions[0].examples[0]
+                ? state.selectedWord?.definitions[0].examples[0]
                 : undefined
             }
             placeholder="Enter sentence"
@@ -96,7 +99,7 @@ export default function New() {
             name="tags"
             ref={register({ required: false })}
             defaultValue={
-              state.editing ? state.wordToEdit?.tags?.join() : undefined
+              state.editing ? state.selectedWord?.tags?.join() : undefined
             }
             placeholder="Enter tags"
           />

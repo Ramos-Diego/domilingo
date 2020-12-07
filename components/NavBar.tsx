@@ -87,6 +87,8 @@ export default function NavBar() {
                   <img
                     src={user?.image ? user.image : ''}
                     alt={user?.name ? user.name : ''}
+                    width="96"
+                    height="96"
                     // Object cover overflows the image instead of distorting
                     className="w-full h-full object-cover"
                   />

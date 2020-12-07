@@ -1,16 +1,17 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import jwt from 'next-auth/jwt'
 import { connectToDatabase } from '../../utils/mongodb'
 import slugify from 'slugify'
-import { SessionUser } from '../../lib/data-types'
 import { object, string, size, pattern, assert } from 'superstruct'
-
-const secret = process.env.JWT_SECRET || ''
+import { getSession } from 'next-auth/client'
+import { SessionUser } from '../../lib/data-types'
+import { Session } from 'next-auth'
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
-  const token: SessionUser = await jwt.getToken({ req, secret })
+  const session: (Session & { user: SessionUser }) | null = await getSession({
+    req,
+  })
 
-  if (token) {
+  if (session) {
     // Proceed because user is signed in
     switch (req.method) {
       case 'POST': {
@@ -35,14 +36,14 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
           await db.collection('words').insertOne({
             word: req.body.word,
             slug: slug,
-            approved: token.domilingo?.role === 'admin' ? true : false,
+            approved: session.user.domilingo?.role === 'admin' ? true : false,
             definitions: [
               {
                 definition: req.body.definition,
                 examples: [req.body.example],
               },
             ],
-            createdBy: token.domilingo?.id,
+            createdBy: session.user.domilingo?.id,
             // Convert comma separated string into an array of strings
             tags: req.body.tags.split(/\s*(?:,|$)\s*/),
             created: Date.now(),
@@ -64,7 +65,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         // Case when admin approves one word
         try {
           const { db } = await connectToDatabase()
-          if (token.domilingo?.role === 'admin' && req.body.approval) {
+          if (session.user.domilingo?.role === 'admin' && req.body.approval) {
             await db.collection('words').updateOne(
               { slug: req.body.slug },
               {
@@ -103,7 +104,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       case 'DELETE': {
         try {
           const { db } = await connectToDatabase()
-          if (token.domilingo?.role === 'admin') {
+          if (session.user.domilingo?.role === 'admin') {
             await db.collection('words').deleteOne({ slug: req.body.slug })
             // Word was deleted
             res.status(200)
