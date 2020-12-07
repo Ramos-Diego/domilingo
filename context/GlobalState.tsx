@@ -5,7 +5,6 @@ import AppReducer from './AppReducer'
 const initialState: State = {
   searchResults: [],
   loadedWords: [],
-  shuffledWords: [],
   wordToEdit: undefined,
   searching: false,
   editing: false,
