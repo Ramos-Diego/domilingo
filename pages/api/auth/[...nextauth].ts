@@ -18,7 +18,7 @@ const options: InitOptions & { jwt: { signingKey?: string } } = {
     signingKey: process.env.NEXTAUTH_JWT_SIGNING_PRIVATE_KEY,
   },
   callbacks: {
-    jwt: async (token, user, account, profile, isNewUser) => {
+    jwt: async (token, user, _account, profile, _isNewUser) => {
       if (user) {
         const userFromDB = await GetUserOrSaveNewUser(profile)
 
