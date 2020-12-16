@@ -15,7 +15,7 @@ const AppReducer = (state: State, action: any) => {
         ...state,
         searchResults: action.filteredWords,
       }
-    case 'LOAD_AND_SHUFFLE':
+    case 'LOAD':
       return {
         ...state,
         loadedWords: action.loadedWords,
