@@ -1,9 +1,8 @@
-import { signIn, signOut, useSession } from 'next-auth/client'
+import { signin, signIn, signout, signOut, useSession } from 'next-auth/client'
 import { ExtendedUseSession } from '../lib/data-types'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
-import Button from './Button'
 import Search from './Search'
 
 export default function NavBar() {
@@ -77,7 +76,7 @@ export default function NavBar() {
                 className="fixed w-full h-full inset-0 cursor-default"
               />
             )}
-            {session ? (
+            {session && (
               <div className="relative">
                 <button
                   // Using relative and z-index to raise the img avobe the ESC button
@@ -119,20 +118,24 @@ export default function NavBar() {
                     )}
                     <button
                       className="px-4 py-2 text-left text-gray-100 hover:bg-gray-900 hover:text-gray-100 focus:outline-none"
-                      onClick={() => signOut({ callbackUrl: '/' })}
+                      onClick={() => signout()}
                     >
                       Sign out
                     </button>
                   </div>
                 </div>
               </div>
-            ) : (
-              <button
-                className="block bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 focus:outline-none text-white font-semibold px-2 py-1 rounded"
-                onClick={() => signIn('google')}
-              >
-                Sign In
-              </button>
+            )}
+
+            {!session && (
+              <>
+                <button
+                  onClick={() => signin('google')}
+                  className="block bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 focus:outline-none text-white font-semibold px-2 py-1 rounded"
+                >
+                  Sign in
+                </button>
+              </>
             )}
           </>
         )}

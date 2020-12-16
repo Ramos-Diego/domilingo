@@ -1,7 +1,8 @@
+import { GenericObject } from 'next-auth/_utils'
 import { connectToDatabase } from './mongodb'
 
 // Todo: create better types for this function
-export const GetUserOrSaveNewUser = async (profile: { id: string }) => {
+export const GetUserOrSaveNewUser = async (profile: GenericObject) => {
   const { db } = await connectToDatabase()
   const user = await db.collection('users').findOne({ id: `${profile.id}` })
   // Check if the user exists
