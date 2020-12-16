@@ -19,8 +19,7 @@
     "**/*.ts",
     "**/*.tsx",
     "tailwind.config.js",
-    "postcss.config.js",
-    "pages/api/auth/[...nextauth].js"
+    "postcss.config.js"
   ],
   "exclude": ["node_modules"]
 }
