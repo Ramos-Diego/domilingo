@@ -24,11 +24,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { db } = await connectToDatabase()
 
   // Check if user exists
-  const exists = await db
+  const user = await db
     .collection('users')
-    .findOne({ id: params?.id as string })
-  // Redirect if user exists
-  if (!exists) {
+    .findOne({ id: params?.id as string }, { projection: { _id: 0, name: 1 } })
+  // Redirect if user doesn't exists
+  if (!user) {
     return {
       redirect: {
         destination: '/',
@@ -36,22 +36,23 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       },
     }
   }
-
+  const name = user.name
   // Find user sumissions
   const words: Word[] = await db
     .collection('words')
     .find({ createdBy: params?.id as string }, { projection: { _id: 0 } })
     .toArray()
 
-  return { props: { words }, revalidate: 1 }
+  return { props: { words, name }, revalidate: 1 }
 }
 
-export default function uid({ words }: { words: Word[] }) {
+export default function uid({ words, name }: { words: Word[]; name: string }) {
   return (
     <Layout>
       <Head>
         <title>Add new word</title>
       </Head>
+      <h1 className="my-3 text-center font-bold text-xl">{name}</h1>
       {words.length === 0 ? (
         <div className="grid gap-3 justify-items-center">
           <div>You have not submitted any words.</div>

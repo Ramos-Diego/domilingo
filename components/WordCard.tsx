@@ -24,13 +24,18 @@ export default function WordCard({ word }: { word: Word }) {
   return (
     <>
       <DeleteModal />
-      <div className="grid gap-2 rounded bg-gray-900 p-3">
-        <div className="flex gap-2 justify-between">
-          <div className="text-lg font-extrabold overflow-x-auto">
+      <article className="grid gap-2 rounded bg-gray-900 p-3">
+        <section className="flex gap-2 justify-between items-center">
+          <header className="text-lg font-extrabold overflow-x-auto">
             <Link href={`/d/${word.slug}`}>
               <a className="hover:text-blue-400">{word.word}</a>
             </Link>
-          </div>
+          </header>
+          {!word.approved && (
+            <p className="ring-2 ring-yellow-500 rounded font-bold p-1">
+              Unapproved
+            </p>
+          )}
           <a
             rel="noopener noreferrer"
             target="_blank"
@@ -42,8 +47,8 @@ export default function WordCard({ word }: { word: Word }) {
             Tweet
             <FaTwitter className="text-blue-50" />
           </a>
-        </div>
-        <div>
+        </section>
+        <section>
           {word.definitions.map((item, idx) => {
             return (
               <div key={idx} className="grid gap-2">
@@ -58,12 +63,12 @@ export default function WordCard({ word }: { word: Word }) {
               </div>
             )
           })}
-        </div>
-        <div>{dateString}</div>
+        </section>
+        <footer>{dateString}</footer>
         {session && (
           <>
             {session.user.domilingo?.role === 'admin' && (
-              <div className="flex justify-start gap-2">
+              <section className="flex justify-start gap-2">
                 <Button
                   onClick={() =>
                     dispatch({
@@ -95,11 +100,11 @@ export default function WordCard({ word }: { word: Word }) {
                 >
                   Edit
                 </Button>
-              </div>
+              </section>
             )}
           </>
         )}
-      </div>
+      </article>
     </>
   )
 }

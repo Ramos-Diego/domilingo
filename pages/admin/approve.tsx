@@ -26,15 +26,18 @@ export const getServerSideProps: GetServerSideProps<{
 }
 
 export default function Approve({ words }: { words: Word[] }) {
-  const [session]: ExtendedUseSession = useSession()
+  const [session, loading]: ExtendedUseSession = useSession()
 
   const { data: unapprovedWords } = useSWR('/api/admin', {
     initialData: words,
   })
 
+  if (loading)
+    return <div className="text-center font-bold text-xl pt-10">Loading...</div>
+
   // Protect admin route
   if (!session || session.user.domilingo?.role !== 'admin')
-    return <div>Access denied.</div>
+    return location.assign('/')
 
   return (
     <Layout>
@@ -42,7 +45,9 @@ export default function Approve({ words }: { words: Word[] }) {
         <title>Admin</title>
       </Head>
       {unapprovedWords?.length === 0 ? (
-        <div>There is nothing here.</div>
+        <div className="text-center font-bold text-xl pt-10">
+          There is nothing here.
+        </div>
       ) : (
         <div className="grid gap-3">
           {unapprovedWords?.map((word, idx) => {

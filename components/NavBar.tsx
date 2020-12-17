@@ -1,4 +1,4 @@
-import { signin, signIn, signout, signOut, useSession } from 'next-auth/client'
+import { signin, signout, useSession } from 'next-auth/client'
 import { ExtendedUseSession } from '../lib/data-types'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -29,35 +29,44 @@ export default function NavBar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 bg-gray-800 flex gap-1 justify-between place-items-center py-2 px-3 max-w-screen-lg mx-auto">
-      <Link href="/" passHref>
-        <a
-          tabIndex={-1}
-          className="font-semibold focus:outline-none text-lg bg-gray-900 px-2 py-1 rounded"
-        >
-          <div className="text-blue-400 group inline-block">
-            <span className="inline-block transform group-hover:-translate-y-1 transition duration-200 ease-out">
-              do
-            </span>
-          </div>
-          <div className="text-blue-400 group inline-block">
-            <span className="inline-block transform group-hover:-translate-y-1 transition duration-200 ease-out">
-              mi
-            </span>
-          </div>
-          <div className="text-red-400 group inline-block">
-            <span className="inline-block transform group-hover:-translate-y-1 transition duration-200 ease-out">
-              lin
-            </span>
-          </div>
-          <div className="text-red-400 group inline-block">
-            <span className="inline-block transform group-hover:-translate-y-1 transition duration-200 ease-out">
-              go
-            </span>
-          </div>
-        </a>
-      </Link>
-      {(router.asPath === '/' || router.asPath === '/#') && <Search />}
-      <div>
+      {/* Logo */}
+      <section>
+        <Link href="/" passHref>
+          <a
+            tabIndex={-1}
+            className="font-semibold focus:outline-none text-lg bg-gray-900 px-2 py-1 rounded"
+          >
+            <div className="text-blue-400 group inline-block">
+              <span className="inline-block transform group-hover:-translate-y-1 transition duration-200 ease-out">
+                do
+              </span>
+            </div>
+            <div className="text-blue-400 group inline-block">
+              <span className="inline-block transform group-hover:-translate-y-1 transition duration-200 ease-out">
+                mi
+              </span>
+            </div>
+            <div className="text-red-400 group inline-block">
+              <span className="inline-block transform group-hover:-translate-y-1 transition duration-200 ease-out">
+                lin
+              </span>
+            </div>
+            <div className="text-red-400 group inline-block">
+              <span className="inline-block transform group-hover:-translate-y-1 transition duration-200 ease-out">
+                go
+              </span>
+            </div>
+          </a>
+        </Link>
+      </section>
+
+      {/* Search bar */}
+      <section>
+        {(router.asPath === '/' || router.asPath === '/#') && <Search />}
+      </section>
+
+      {/* Login button / user menu */}
+      <section>
         {loading ? (
           <button
             disabled
@@ -74,10 +83,11 @@ export default function NavBar() {
                 // This button covers the entire screen.
                 // It closes menu when clicked anywhere but the menu
                 className="fixed w-full h-full inset-0 cursor-default"
-              />
+              ></button>
             )}
             {session && (
               <div className="relative">
+                {/* Profile picture/button */}
                 <button
                   // Using relative and z-index to raise the img avobe the ESC button
                   className="relative z-10 block w-9 h-9 rounded-full overflow-hidden ring-2 ring-gray-600 focus:outline-none focus:ring-white"
@@ -92,6 +102,8 @@ export default function NavBar() {
                     className="w-full h-full object-cover"
                   />
                 </button>
+
+                {/* Dropdown menu */}
                 <div className={menu ? '' : 'hidden'}>
                   <div className="grid overflow-hidden origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-gray-700 ring-2 ring-gray-500">
                     {router.asPath !== `/${user?.domilingo?.id}` && (
@@ -127,6 +139,7 @@ export default function NavBar() {
               </div>
             )}
 
+            {/* Login button */}
             {!session && (
               <>
                 <button
@@ -139,7 +152,7 @@ export default function NavBar() {
             )}
           </>
         )}
-      </div>
+      </section>
     </nav>
   )
 }

@@ -26,6 +26,7 @@ A dictionary of Dominican slang.
 - [ ] Trending page
 - [ ] Implement word of the day
 - [ ] Search by word tags
+- [ ] Implement React.lazy()
 
 ### USERS
 
