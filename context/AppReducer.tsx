@@ -4,21 +4,27 @@
 import { State } from '../lib/data-types'
 const AppReducer = (state: State, action: any) => {
   switch (action.type) {
-    case 'SEARCHING':
-      return {
-        ...state,
-        searching:
-          action.searching && action.searching.length > 0 ? true : false,
-      }
+    case 'CLEAR':
+      return { ...state, words: [] }
     case 'SEARCH':
       return {
         ...state,
-        searchResults: action.filteredWords,
+        searchQuery: action.payload,
       }
     case 'LOAD':
       return {
         ...state,
-        loadedWords: action.loadedWords,
+        words: [...state.words, ...action.payload],
+      }
+    case 'HAS_MORE':
+      return {
+        ...state,
+        hasMore: action.payload,
+      }
+    case 'PAGE_NUMBER':
+      return {
+        ...state,
+        pageNumber: action.payload ? action.payload : state.pageNumber + 1,
       }
     case 'EDIT':
       return {

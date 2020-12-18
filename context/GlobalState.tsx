@@ -3,12 +3,13 @@ import { GlobalContextType, State } from '../lib/data-types'
 import AppReducer from './AppReducer'
 
 const initialState: State = {
-  searchResults: [],
-  loadedWords: [],
   selectedWord: undefined,
-  searching: false,
   editing: false,
   deleting: false,
+  words: [],
+  hasMore: false,
+  pageNumber: 1,
+  searchQuery: '',
 }
 
 // The global context becomes a single source of truth
