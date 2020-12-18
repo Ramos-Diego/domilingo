@@ -11,6 +11,7 @@ export const getStaticPaths: GetStaticPaths<{ id: string }> = async () => {
   const ids: { id: string }[] = await db
     .collection('users')
     .find({}, { id: 1 })
+    .limit(10) // Only pre-render 10 profiles
     .toArray()
 
   const paths = ids.map(({ id }) => ({

@@ -20,7 +20,6 @@ export default function useWordsearch(query: string, pageNumber: number) {
       })
       .then((res) => {
         dispatch({ type: 'LOAD', payload: res.data })
-        console.log(res.data)
         dispatch({ type: 'HAS_MORE', payload: res.data.length > 0 })
         setLoading(false)
       })

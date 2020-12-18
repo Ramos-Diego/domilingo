@@ -53,11 +53,11 @@ export type GlobalContextType = {
 export type State = {
   selectedWord: Word | undefined
   editing: boolean
-  deleting: boolean
   words: Word[]
   hasMore: boolean
   pageNumber: number
   searchQuery: string
+  modal: 'OFF' | 'USER_DROPDOWN' | 'DELETE_MODAL'
 }
 
 export type Actions = {
@@ -69,7 +69,8 @@ export type Actions = {
     | 'HAS_MORE'
     | 'PAGE_NUMBER'
     | 'CLEAR'
-  deleteState?: boolean
+    | 'MODAL'
+    | 'SELECT'
   selectedWord?: Word
   payload?: any
 }

@@ -28,7 +28,7 @@ export default function New() {
         Add a word to the dictionary
       </p>
       <form
-        className="grid gap-3 ring ring-gray-900 shadow-md rounded px-8 pt-6 pb-8 mb-4 "
+        className="grid gap-3 ring ring-gray-900 shadow-md rounded px-8 pt-6 pb-8 m-3"
         onSubmit={handleSubmit(async (data: NewWordForm, e) => {
           setSumitted(true)
           const response = await createWordFetch(data)

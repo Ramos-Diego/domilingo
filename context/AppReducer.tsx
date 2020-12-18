@@ -4,6 +4,10 @@
 import { State } from '../lib/data-types'
 const AppReducer = (state: State, action: any) => {
   switch (action.type) {
+    case 'SELECT':
+      return { ...state, selectedWord: action.payload }
+    case 'MODAL':
+      return { ...state, modal: action.payload }
     case 'CLEAR':
       return { ...state, words: [] }
     case 'SEARCH':
@@ -31,12 +35,6 @@ const AppReducer = (state: State, action: any) => {
         ...state,
         selectedWord: action.selectedWord ? action.selectedWord : undefined,
         editing: action.selectedWord ? true : false,
-      }
-    case 'DELETE':
-      return {
-        ...state,
-        selectedWord: action.selectedWord ? action.selectedWord : undefined,
-        deleting: action.deleteState,
       }
     default:
       return state

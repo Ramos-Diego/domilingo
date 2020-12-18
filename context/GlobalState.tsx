@@ -5,11 +5,11 @@ import AppReducer from './AppReducer'
 const initialState: State = {
   selectedWord: undefined,
   editing: false,
-  deleting: false,
   words: [],
   hasMore: false,
   pageNumber: 1,
   searchQuery: '',
+  modal: 'OFF',
 }
 
 // The global context becomes a single source of truth

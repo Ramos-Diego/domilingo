@@ -3,24 +3,18 @@ import { GlobalContext } from '../context/GlobalState'
 import { useRouter } from 'next/router'
 import { deleteWordFetch } from '../utils/client'
 import { trigger } from 'swr'
+import ModalBackground from './ModalBackground'
 
 export default function DeleteModal() {
   const { state, dispatch } = useContext(GlobalContext)
   const router = useRouter()
 
-  if (state.deleting) {
+  if (state.modal === 'DELETE_MODAL') {
     return (
       <>
-        <div className="fixed inset-0 overflow-y-auto">
-          <button
-            // Makes this unable to focus using tab
-            tabIndex={-1}
-            onClick={() => dispatch({ type: 'DELETE', deleteState: false })}
-            // This button covers the entire screen.
-            // It closes menu when clicked anywhere but the menu
-            className="fixed w-full h-full inset-0 cursor-default bg-gray-800 opacity-75"
-          ></button>
-          <div className="grid items-end justify-center w-full h-full pt-4 px-4 pb-20 sm:items-center">
+        <div className="z-10 fixed inset-0 overflow-y-auto ">
+          <ModalBackground />
+          <div className="grid items-end justify-center h-full pt-4 px-4 pb-20 sm:items-center">
             <article className="bg-gray-900 rounded-lg overflow-hidden ring-2 ring-red-800 transform transition-all">
               <section className="px-6 py-4 sm:p-6 sm:flex sm:items-start">
                 <div className="sm:mt-0 sm:ml-4">
@@ -37,7 +31,7 @@ export default function DeleteModal() {
                 <button
                   onClick={async () => {
                     if (state.selectedWord) {
-                      dispatch({ type: 'DELETE', deleteState: false })
+                      dispatch({ type: 'MODAL', payload: 'OFF' })
                       await deleteWordFetch(state.selectedWord.slug)
                       // Trigger a revalidation/update the cache when the promise resolves
                       router.pathname === '/' && trigger('/api/db')
@@ -50,9 +44,7 @@ export default function DeleteModal() {
                   Delete
                 </button>
                 <button
-                  onClick={() =>
-                    dispatch({ type: 'DELETE', deleteState: false })
-                  }
+                  onClick={() => dispatch({ type: 'MODAL', payload: 'OFF' })}
                   className="mt-3 w-full rounded-md shadow-sm px-4 py-2 bg-gray-200 text-gray-900 text-base font-medium hover:bg-gray-50 focus:outline-none sm:mt-0 sm:w-auto sm:text-sm"
                 >
                   Cancel
@@ -64,5 +56,5 @@ export default function DeleteModal() {
       </>
     )
   }
-  return null
+  return <></>
 }
