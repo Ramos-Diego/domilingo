@@ -14,7 +14,7 @@ export default function useWordsearch(query: string, pageNumber: number) {
     setError(false)
     let cancel: Canceler
     axios
-      .get('/api/db', {
+      .get('/api/public', {
         params: { q: query, page: pageNumber },
         cancelToken: new axios.CancelToken((c) => (cancel = c)),
       })
