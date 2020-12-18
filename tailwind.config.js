@@ -11,7 +11,7 @@ module.exports = {
     },
     extend: {
       gridTemplateRows: {
-        hamburger: 'auto 1fr auto',
+        hamburger: 'auto 1fr auto auto',
         '1fr-auto': '1fr auto',
       },
     },

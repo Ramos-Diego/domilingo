@@ -8,7 +8,6 @@ import { useRouter } from 'next/router'
 import { FaTwitter } from 'react-icons/fa'
 import { useContext } from 'react'
 import { GlobalContext } from '../context/GlobalState'
-import DeleteModal from './DeleteModal'
 
 export default function WordCard({ word }: { word: Word }) {
   const { dispatch } = useContext(GlobalContext)
@@ -23,8 +22,7 @@ export default function WordCard({ word }: { word: Word }) {
 
   return (
     <>
-      <DeleteModal />
-      <article className="grid gap-2 rounded bg-gray-900 p-3">
+      <article className="grid gap-2 grid-rows-hamburger rounded bg-gray-900 p-3">
         <section className="flex gap-2 justify-between items-center">
           <header className="text-lg font-extrabold overflow-x-auto">
             <Link href={`/d/${word.slug}`}>
@@ -70,13 +68,10 @@ export default function WordCard({ word }: { word: Word }) {
             {session.user.domilingo?.role === 'admin' && (
               <section className="flex justify-start gap-2">
                 <Button
-                  onClick={() =>
-                    dispatch({
-                      type: 'DELETE',
-                      deleteState: true,
-                      selectedWord: word,
-                    })
-                  }
+                  onClick={() => {
+                    dispatch({ type: 'SELECT', payload: word })
+                    dispatch({ type: 'MODAL', payload: 'DELETE_MODAL' })
+                  }}
                 >
                   Delete
                 </Button>

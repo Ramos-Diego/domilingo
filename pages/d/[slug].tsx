@@ -11,6 +11,7 @@ export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
   const slugs: Word[] = await db
     .collection('words')
     .find({}, { slug: 1 })
+    .limit(10) // Only pre-render 10 pages
     .toArray()
 
   const paths = slugs.map(({ slug }) => ({
@@ -42,12 +43,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   }
 
   // Upon every request the following logic runs.
-  // revalidate: Has it been 2 seconds since the last request to this page?
+  // revalidate: Has it been x seconds since the last request to this page?
   // If yes, get the props again, otherwise serve the previously generated page
-  return {
-    props: { word }, // will be passed to the page component as props
-    revalidate: 1,
-  }
+  return { props: { word }, revalidate: 10 }
 }
 
 export default function Slug({ word }: { word: Word }) {

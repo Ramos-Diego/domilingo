@@ -21,6 +21,8 @@ A dictionary of Dominican slang.
 - [x] Add edit word feature
 - [x] Sort words randomly
 - [x] Implement pagination or Infinite scroll
+- [x] General Modal component
+- [x] Search with alphabet
 - [ ] Validation, sanitizing and escaping of all inputs
 - [ ] Implement rate limiting
 - [ ] Translate site to Spanish
