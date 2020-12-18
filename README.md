@@ -20,8 +20,10 @@ A dictionary of Dominican slang.
 - [x] Add tags
 - [x] Add edit word feature
 - [x] Sort words randomly
+- [x] Implement pagination or Infinite scroll
+- [ ] Validation, sanitizing and escaping of all inputs
+- [ ] Implement rate limiting
 - [ ] Translate site to Spanish
-- [ ] Implement pagination or Infinite scroll
 - [ ] Allow users to create a username
 - [ ] Trending page
 - [ ] Implement word of the day
@@ -33,8 +35,8 @@ A dictionary of Dominican slang.
 - [x] Add a word and a definition
 - [x] Add example sentences
 - [x] Provide feedback upon word sumission
+- [x] Explain to user that words must be approved
 - [ ] Limit daily submissions
-- [ ] Explain to user that words must be approved
 - [ ] Suggest an edit on any word or definition
 
 ### ADMINS
@@ -42,5 +44,5 @@ A dictionary of Dominican slang.
 - [x] Edit and delete user submissions
 - [x] Create APPROVE function for user submissions
 - [x] Automatically approve admin submissions
-- [ ] Ask for confirmation to delete word
+- [x] Ask for confirmation to delete word
 - [ ] Bulk submissions

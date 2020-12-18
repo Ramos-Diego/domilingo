@@ -1,4 +1,4 @@
-import { EditWordForm, Word, NewWordForm } from '../lib/data-types'
+import { EditWordForm, NewWordForm } from '../lib/data-types'
 
 export const createWordFetch = (data: NewWordForm) => {
   return fetch('/api/db', {
