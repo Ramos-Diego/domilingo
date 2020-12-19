@@ -2,7 +2,11 @@ import { useEffect } from 'react'
 import { useContext } from 'react'
 import { GlobalContext } from '../context/GlobalState'
 
-export default function ModalBackground() {
+export default function ModalBackground({
+  component,
+}: {
+  component: typeof state.modal
+}) {
   const { state, dispatch } = useContext(GlobalContext)
 
   // Press Esc to close the dropdown menu
@@ -21,7 +25,7 @@ export default function ModalBackground() {
     }
   }, []) // Empty array ensures that effect is only run on mount and unmount
 
-  if (state.modal !== 'OFF') {
+  if (state.modal === component) {
     return (
       <button
         // Makes this unable to focus using tab

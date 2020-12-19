@@ -57,7 +57,7 @@ export type State = {
   hasMore: boolean
   pageNumber: number
   searchQuery: string
-  modal: 'OFF' | 'USER_DROPDOWN' | 'DELETE_MODAL'
+  modal: 'OFF' | 'USER_DROPDOWN' | 'DELETE_MODAL' | 'LETTER_FILTER'
 }
 
 export type Actions = {

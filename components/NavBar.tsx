@@ -1,8 +1,11 @@
 import Link from 'next/link'
+import LetterFilter from './LetterFilter'
 import Search from './Search'
 import UserDropdown from './UserDropdown'
+import { useRouter } from 'next/router'
 
 export default function NavBar() {
+  const router = useRouter()
   return (
     <nav className="fixed top-0 left-0 right-0 bg-gray-800 flex gap-1 justify-between place-items-center py-2 px-3 max-w-screen-lg mx-auto">
       {/* Logo */}
@@ -37,9 +40,12 @@ export default function NavBar() {
       </section>
 
       {/* Search bar */}
-      <section>
-        <Search />
-      </section>
+      {(router.asPath === '/' || router.asPath === '/#') && (
+        <section className="flex gap-2 items-center">
+          <Search />
+          <LetterFilter />
+        </section>
+      )}
 
       {/* Login button / user menu */}
       <section>

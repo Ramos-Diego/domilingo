@@ -13,7 +13,7 @@ export default function DeleteModal() {
     return (
       <>
         <div className="z-10 fixed inset-0 overflow-y-auto ">
-          <ModalBackground />
+          <ModalBackground component="DELETE_MODAL" />
           <div className="grid items-end justify-center h-full pt-4 px-4 pb-20 sm:items-center">
             <article className="bg-gray-900 rounded-lg overflow-hidden ring-2 ring-red-800 transform transition-all">
               <section className="px-6 py-4 sm:p-6 sm:flex sm:items-start">
