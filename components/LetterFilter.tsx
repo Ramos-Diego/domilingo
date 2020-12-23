@@ -11,19 +11,19 @@ export default function LetterFilter() {
 
   return (
     <>
-      <ModalBackground component="LETTER_FILTER" />
+      <ModalBackground component="LETTER_FILTER" transparent />
       <button
         onClick={() =>
-          state.modal === 'LETTER_FILTER'
-            ? dispatch({ type: 'MODAL', payload: 'OFF' })
-            : dispatch({ type: 'MODAL', payload: 'LETTER_FILTER' })
+          state.modal.id === 'LETTER_FILTER'
+            ? dispatch({ type: 'MODAL', payload: { id: 'MODAL_OFF' } })
+            : dispatch({ type: 'MODAL', payload: { id: 'LETTER_FILTER' } })
         }
         className={`${
-          state.modal === 'LETTER_FILTER' ? 'z-10 ' : ''
+          state.modal.id === 'LETTER_FILTER' ? 'z-10 ' : ''
         }relative p-2 rounded bg-gray-900`}
       >
         <FaFont />
-        {state.modal === 'LETTER_FILTER' && (
+        {state.modal.id === 'LETTER_FILTER' && (
           <nav className="absolute -left-24 mt-5 inline-grid min-w-max rounded grid-cols-6 gap-x-4 gap-y-3 p-2 font-bold text-white bg-gray-800 text-center ring-2 ring-white">
             {letters.map((letter, idx) => (
               <button

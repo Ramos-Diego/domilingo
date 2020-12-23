@@ -6,9 +6,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <>
       <DeleteModal />
       <NavBar />
-      <main className="mx-auto max-w-prose lg:max-w-4xl mb-3 mt-14">
-        {children}
-      </main>
+      <main className="mb-3 mt-5">{children}</main>
     </>
   )
 }

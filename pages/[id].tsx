@@ -53,23 +53,26 @@ export default function uid({ words, name }: { words: Word[]; name: string }) {
       <Head>
         <title>Add new word</title>
       </Head>
-      <h1 className="my-3 text-center font-bold text-xl">{name}</h1>
-      {words.length === 0 ? (
-        <div className="grid gap-3 justify-items-center">
-          <div>You have not submitted any words.</div>
-          <Link href="/new">
-            <a className="bg-gray-900 p-2 rounded font-semibold">
-              Submit a word now!
-            </a>
-          </Link>
-        </div>
-      ) : (
-        <div className="grid gap-3">
-          {words.map((item, idx) => {
-            return <WordCard word={item} key={idx} />
-          })}
-        </div>
-      )}
+
+      <div className="max-w-lg mx-auto grid justify-items-center items-start gap-1 sm:gap-3 bg-gray-200 dark:bg-gray-800 text-gray-900 dark:text-gray-50">
+        <h1 className="my-3 text-center font-bold text-xl">{name}</h1>
+        {words.length === 0 ? (
+          <div className="grid gap-3 justify-items-center">
+            <div>You have not submitted any words.</div>
+            <Link href="/new">
+              <a className="bg-gray-900 p-2 rounded font-semibold">
+                Submit a word now!
+              </a>
+            </Link>
+          </div>
+        ) : (
+          <div className="grid gap-3">
+            {words.map((item, idx) => {
+              return <WordCard word={item} key={idx} />
+            })}
+          </div>
+        )}
+      </div>
     </Layout>
   )
 }

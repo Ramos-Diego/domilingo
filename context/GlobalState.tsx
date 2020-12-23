@@ -9,7 +9,7 @@ const initialState: State = {
   hasMore: false,
   pageNumber: 1,
   searchQuery: '',
-  modal: 'OFF',
+  modal: { id: 'MODAL_OFF' },
 }
 
 // The global context becomes a single source of truth

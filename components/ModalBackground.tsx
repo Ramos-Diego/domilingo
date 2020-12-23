@@ -4,8 +4,10 @@ import { GlobalContext } from '../context/GlobalState'
 
 export default function ModalBackground({
   component,
+  transparent,
 }: {
-  component: typeof state.modal
+  component: typeof state.modal.id
+  transparent: boolean
 }) {
   const { state, dispatch } = useContext(GlobalContext)
 
@@ -25,15 +27,19 @@ export default function ModalBackground({
     }
   }, []) // Empty array ensures that effect is only run on mount and unmount
 
-  if (state.modal === component) {
+  if (state.modal.id === component) {
     return (
       <button
         // Makes this unable to focus using tab
         tabIndex={-1}
-        onClick={() => dispatch({ type: 'MODAL', payload: 'OFF' })}
+        onClick={() =>
+          dispatch({ type: 'MODAL', payload: { id: 'MODAL_OFF' } })
+        }
         // This button covers the entire screen.
         // It closes modal when clicked anywhere but the menu
-        className="fixed w-full h-full inset-0 cursor-default bg-gray-800 opacity-75"
+        className={`fixed w-full h-full inset-0 cursor-default ${
+          transparent ? '' : 'bg-gray-700 opacity-75'
+        }`}
       ></button>
     )
   }
