@@ -2,7 +2,6 @@ import Head from 'next/head'
 import WordCard from '../components/WordCard'
 import { Word } from '../lib/data-types'
 import Layout from '../components/Layout'
-import LetterFilter from '../components/LetterFilter'
 import { useContext, useRef, useCallback, useEffect } from 'react'
 import { GlobalContext } from '../context/GlobalState'
 import searchAPI from '../components/SearchAPI'
@@ -44,8 +43,7 @@ export default function Home({ words }: { words: Word[] }) {
       <Head>
         <title>Domilingo</title>
       </Head>
-      <LetterFilter />
-      <div className="grid gap-1 lg:grid-cols-2 sm:gap-3 lg:gap-4">
+      <div className="max-w-lg mx-auto grid justify-items-center items-start gap-1 sm:gap-3 md:max-w-screen-lg md:px-3 md:grid-cols-2 bg-gray-200 dark:bg-gray-800 text-gray-900 dark:text-gray-50">
         <>
           {state.words.map((word, idx) => {
             if (state.words.length === idx + 1) {

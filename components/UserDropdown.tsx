@@ -14,47 +14,47 @@ export default function UserDropdown() {
 
   return (
     <>
-      {loading ? (
-        <button
-          disabled
-          // Using relative and z-index to raise the img avobe the ESC button
-          className="relative z-10 block w-9 h-9 rounded-full overflow-hidden ring-2 ring-gray-600 focus:outline-none focus:ring-white"
-        ></button>
-      ) : (
+      {session && (
         <>
-          <ModalBackground />
-          {session && (
-            <div className="relative">
-              {/* Profile picture/button */}
-              <button
-                // Using relative and z-index to raise the img avobe the ESC button
-                className="relative z-10 block w-9 h-9 rounded-full overflow-hidden ring-2 ring-gray-600 focus:outline-none focus:ring-white"
-                onClick={() =>
-                  state.modal === 'USER_DROPDOWN'
-                    ? dispatch({ type: 'MODAL', payload: 'OFF' })
-                    : dispatch({ type: 'MODAL', payload: 'USER_DROPDOWN' })
-                }
-              >
-                <img
-                  src={user?.image ? user.image : ''}
-                  alt={user?.name ? user.name : ''}
-                  width="96"
-                  height="96"
-                  // Object cover overflows the image instead of distorting
-                  className="w-full h-full object-cover"
-                />
-              </button>
-
-              {/* Dropdown menu */}
-              <div className={state.modal === 'USER_DROPDOWN' ? '' : 'hidden'}>
-                <div className="grid overflow-hidden origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-gray-700 ring-2 ring-gray-500">
+          <ModalBackground component="_USER_DROPDOWN_" transparent />
+          <div className="relative">
+            <button
+              onClick={() =>
+                state.modal === '_USER_DROPDOWN_'
+                  ? dispatch({ type: 'MODAL', payload: '_OFF_' })
+                  : dispatch({
+                      type: 'MODAL',
+                      payload: '_USER_DROPDOWN_',
+                    })
+              }
+              className="flex text-sm rounded-full shadow-sm font-medium transition focus:outline-none hover:shadow-md focus:shadow-md focus:ring-2 focus:ring-gray-500 dark:focus:ring-gray-200"
+              id="user-menu"
+              aria-haspopup="true"
+            >
+              <span className="sr-only">Open user menu</span>
+              <img
+                className="h-8 w-8 rounded-full"
+                src={user?.image ? user.image : ''}
+                alt={user?.name ? user.name : ''}
+              />
+            </button>
+            {state.modal === '_USER_DROPDOWN_' && (
+              <article className="z-10 origin-top-right absolute right-0 mt-2 w-40 rounded-md border-2 dark:border-gray-500 bg-white dark:bg-gray-900 shadow-lg ring-1 ring-black ring-opacity-5">
+                <section
+                  role="menu"
+                  aria-orientation="vertical"
+                  aria-labelledby="options-menu"
+                >
                   {router.asPath !== `/${user?.domilingo?.id}` && (
                     <Link href={`/${user?.domilingo?.id}`} passHref>
                       <a
                         onClick={() =>
-                          dispatch({ type: 'MODAL', payload: 'OFF' })
+                          dispatch({
+                            type: 'MODAL',
+                            payload: '_OFF_',
+                          })
                         }
-                        className="px-4 py-2 text-gray-100 hover:bg-gray-900 hover:text-gray-100"
+                        className="block px-4 py-2 rounded text-sm text-gray-800 dark:text-gray-50 bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white focus:bg-gray-100 dark:focus:bg-gray-800 focus:text-gray-900 dark:focus:text-white transition focus:outline-none focus:ring-2 ring-inset focus:ring-gray-500 dark:focus:ring-gray-200"
                       >
                         Profile
                       </a>
@@ -65,9 +65,9 @@ export default function UserDropdown() {
                       <Link href={'/admin/approve'} passHref>
                         <a
                           onClick={() =>
-                            dispatch({ type: 'MODAL', payload: 'OFF' })
+                            dispatch({ type: 'MODAL', payload: '_OFF_' })
                           }
-                          className="px-4 py-2 text-gray-100 hover:bg-gray-900 hover:text-gray-100"
+                          className="block px-4 py-2 rounded text-sm text-gray-800 dark:text-gray-50 bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white focus:bg-gray-100 dark:focus:bg-gray-800 focus:text-gray-900 dark:focus:text-white transition focus:outline-none focus:ring-2 ring-inset focus:ring-gray-500 dark:focus:ring-gray-200"
                         >
                           Admin
                         </a>
@@ -77,40 +77,46 @@ export default function UserDropdown() {
                     <Link href="/new" passHref>
                       <a
                         onClick={() =>
-                          dispatch({ type: 'MODAL', payload: 'OFF' })
+                          dispatch({ type: 'MODAL', payload: '_OFF_' })
                         }
-                        className="px-4 py-2 text-gray-100 hover:bg-gray-900 hover:text-gray-100"
+                        className="block px-4 py-2 rounded text-sm text-gray-800 dark:text-gray-50 bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white focus:bg-gray-100 dark:focus:bg-gray-800 focus:text-gray-900 dark:focus:text-white transition focus:outline-none focus:ring-2 ring-inset focus:ring-gray-500 dark:focus:ring-gray-200"
                       >
                         New
                       </a>
                     </Link>
                   )}
+                  <hr className="my-1" />
                   <button
-                    className="px-4 py-2 text-left text-gray-100 hover:bg-gray-900 hover:text-gray-100 focus:outline-none"
                     onClick={() => {
                       signout()
-                      dispatch({ type: 'MODAL', payload: 'OFF' })
+                      dispatch({ type: 'MODAL', payload: '_OFF_' })
                     }}
+                    className="w-full text-left px-4 rounded py-2 text-sm text-gray-800 dark:text-gray-50 bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white focus:bg-gray-100 dark:focus:bg-gray-800 focus:text-gray-900 dark:focus:text-white transition focus:outline-none focus:ring-2 ring-inset focus:ring-gray-500 dark:focus:ring-gray-200"
                   >
                     Sign out
                   </button>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Login button */}
-          {!session && (
-            <>
-              <button
-                onClick={() => signin('google')}
-                className="block bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 focus:outline-none text-white font-semibold px-2 py-1 rounded"
-              >
-                Sign in
-              </button>
-            </>
-          )}
+                </section>
+              </article>
+            )}
+          </div>
         </>
+      )}
+
+      {/* Login button */}
+      {!session && (
+        <button
+          className="block rounded hover:shadow-md focus:outline-none transition dark:hover:bg-gray-700 hover:bg-gray-300 dark:focus:bg-gray-700 focus:bg-gray-300"
+          onClick={() => signin('google')}
+        >
+          <p className="hidden sm:block p-1 font-bold">Sign in</p>
+          <svg
+            className="sm:hidden text-blue-700 dark:text-blue-400 fill-current w-9 h-9 p-0.5"
+            viewBox="0 0 512 512"
+          >
+            <title>Sign In</title>
+            <path d="M392 80H232a56.06 56.06 0 00-56 56v104h153.37l-52.68-52.69a16 16 0 0122.62-22.62l80 80a16 16 0 010 22.62l-80 80a16 16 0 01-22.62-22.62L329.37 272H176v104c0 32.05 33.79 56 64 56h152a56.06 56.06 0 0056-56V136a56.06 56.06 0 00-56-56zM80 240a16 16 0 000 32h96v-32z" />
+          </svg>
+        </button>
       )}
     </>
   )

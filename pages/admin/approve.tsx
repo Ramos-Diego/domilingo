@@ -49,10 +49,12 @@ export default function Approve({ words }: { words: Word[] }) {
           There is nothing here.
         </div>
       ) : (
-        <div className="grid gap-3">
-          {unapprovedWords?.map((word, idx) => {
-            return <WordCard word={word} key={idx} />
-          })}
+        <div className="max-w-lg mx-auto grid justify-items-center items-start gap-1 sm:gap-3 bg-gray-200 dark:bg-gray-800 text-gray-900 dark:text-gray-50">
+          <div className="grid gap-3">
+            {unapprovedWords?.map((word, idx) => {
+              return <WordCard word={word} key={idx} />
+            })}
+          </div>
         </div>
       )}
     </Layout>

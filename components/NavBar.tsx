@@ -1,50 +1,32 @@
-import Link from 'next/link'
+import LetterFilter from './LetterFilter'
 import Search from './Search'
+import Logo from './Logo'
 import UserDropdown from './UserDropdown'
+import { useRouter } from 'next/router'
 
 export default function NavBar() {
+  const router = useRouter()
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-gray-800 flex gap-1 justify-between place-items-center py-2 px-3 max-w-screen-lg mx-auto">
-      {/* Logo */}
-      <section>
-        <Link href="/" passHref>
-          <a
-            tabIndex={-1}
-            className="font-semibold focus:outline-none text-lg bg-gray-900 px-2 py-1 rounded"
-          >
-            <div className="text-blue-400 group inline-block">
-              <span className="inline-block transform group-hover:-translate-y-1 transition duration-200 ease-out">
-                do
-              </span>
-            </div>
-            <div className="text-blue-400 group inline-block">
-              <span className="inline-block transform group-hover:-translate-y-1 transition duration-200 ease-out">
-                mi
-              </span>
-            </div>
-            <div className="text-red-400 group inline-block">
-              <span className="inline-block transform group-hover:-translate-y-1 transition duration-200 ease-out">
-                lin
-              </span>
-            </div>
-            <div className="text-red-400 group inline-block">
-              <span className="inline-block transform group-hover:-translate-y-1 transition duration-200 ease-out">
-                go
-              </span>
-            </div>
-          </a>
-        </Link>
-      </section>
+    <nav className="w-full h-11 grid justify-items-center bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-50">
+      <div className="max-w-screen-lg w-full">
+        <article className="h-full px-2 sm:px-4 flex items-center justify-between gap-2 sm:gap-0">
+          {/* Logo */}
+          <section>
+            <Logo />
+          </section>
 
-      {/* Search bar */}
-      <section>
-        <Search />
-      </section>
+          {/* Search */}
+          <section>
+            {(router.asPath === '/' || router.asPath === '/#') && <Search />}
+            {/* <LetterFilter /> */}
+          </section>
 
-      {/* Login button / user menu */}
-      <section>
-        <UserDropdown />
-      </section>
+          {/* Login button / user menu */}
+          <section>
+            <UserDropdown />
+          </section>
+        </article>
+      </div>
     </nav>
   )
 }
