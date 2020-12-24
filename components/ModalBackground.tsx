@@ -6,7 +6,7 @@ export default function ModalBackground({
   component,
   transparent,
 }: {
-  component: typeof state.modal.id
+  component: typeof state.modal
   transparent: boolean
 }) {
   const { state, dispatch } = useContext(GlobalContext)
@@ -14,7 +14,7 @@ export default function ModalBackground({
   // Press Esc to close the dropdown menu
   const downHandler = (e: KeyboardEvent) => {
     if (e.key === 'Esc' || e.key === 'Escape') {
-      dispatch({ type: 'MODAL', payload: 'OFF' })
+      dispatch({ type: 'MODAL', payload: '_OFF_' })
     }
   }
 
@@ -27,14 +27,12 @@ export default function ModalBackground({
     }
   }, []) // Empty array ensures that effect is only run on mount and unmount
 
-  if (state.modal.id === component) {
+  if (state.modal === component) {
     return (
       <button
         // Makes this unable to focus using tab
         tabIndex={-1}
-        onClick={() =>
-          dispatch({ type: 'MODAL', payload: { id: 'MODAL_OFF' } })
-        }
+        onClick={() => dispatch({ type: 'MODAL', payload: '_OFF_' })}
         // This button covers the entire screen.
         // It closes modal when clicked anywhere but the menu
         className={`fixed w-full h-full inset-0 cursor-default ${

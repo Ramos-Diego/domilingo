@@ -11,19 +11,19 @@ export default function LetterFilter() {
 
   return (
     <>
-      <ModalBackground component="LETTER_FILTER" transparent />
+      <ModalBackground component="_LETTER_FILTER_" transparent />
       <button
         onClick={() =>
-          state.modal.id === 'LETTER_FILTER'
-            ? dispatch({ type: 'MODAL', payload: { id: 'MODAL_OFF' } })
-            : dispatch({ type: 'MODAL', payload: { id: 'LETTER_FILTER' } })
+          state.modal === '_LETTER_FILTER_'
+            ? dispatch({ type: 'MODAL', payload: '_OFF_' })
+            : dispatch({ type: 'MODAL', payload: '_LETTER_FILTER_' })
         }
         className={`${
-          state.modal.id === 'LETTER_FILTER' ? 'z-10 ' : ''
+          state.modal === '_LETTER_FILTER_' ? 'z-10 ' : ''
         }relative p-2 rounded bg-gray-900`}
       >
         <FaFont />
-        {state.modal.id === 'LETTER_FILTER' && (
+        {state.modal === '_LETTER_FILTER_' && (
           <nav className="absolute -left-24 mt-5 inline-grid min-w-max rounded grid-cols-6 gap-x-4 gap-y-3 p-2 font-bold text-white bg-gray-800 text-center ring-2 ring-white">
             {letters.map((letter, idx) => (
               <button
@@ -31,7 +31,7 @@ export default function LetterFilter() {
                 className="bg-gray-900 px-1 rounded focus:outline-none focus:ring-2 focus:ring-white transform hover:-translate-y-1 hover:scale-125"
                 onClick={() => {
                   // Clear the words to only append the search results
-                  dispatch({ type: 'MODAL', payload: 'LETTER_FILTER' })
+                  dispatch({ type: 'MODAL', payload: '_LETTER_FILTER_' })
                   dispatch({ type: 'CLEAR' })
                   dispatch({ type: 'SEARCH', payload: letter })
                   dispatch({ type: 'PAGE_NUMBER', payload: 1 })

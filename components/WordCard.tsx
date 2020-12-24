@@ -50,15 +50,9 @@ export default function WordCard({ word }: { word: Word }) {
                 <div className="select-none relative">
                   <button
                     onClick={() =>
-                      state.modal.id === word.slug
-                        ? dispatch({
-                            type: 'MODAL',
-                            payload: { id: 'MODAL_OFF' },
-                          })
-                        : dispatch({
-                            type: 'MODAL',
-                            payload: { id: word.slug },
-                          })
+                      state.modal === word.slug
+                        ? dispatch({ type: 'MODAL', payload: '_OFF_' })
+                        : dispatch({ type: 'MODAL', payload: word.slug })
                     }
                     className="rounded-md p-1 hover:shadow-md focus:outline-none transition dark:hover:bg-gray-700 hover:bg-gray-300 dark:focus:bg-gray-700 focus:bg-gray-300"
                   >
@@ -69,7 +63,7 @@ export default function WordCard({ word }: { word: Word }) {
                       <circle cx="256" cy="96" r="48" />
                     </svg>
                   </button>
-                  {state.modal.id === word.slug && (
+                  {state.modal === word.slug && (
                     <article className="z-10 absolute origin-top-right right-0 mt-2 rounded-md border-2 dark:border-gray-500 bg-white dark:bg-gray-900 shadow-lg ring-1 ring-black ring-opacity-5">
                       <section
                         role="menu"
@@ -80,6 +74,7 @@ export default function WordCard({ word }: { word: Word }) {
                           className="text-sm w-full text-left px-3 rounded py-2 text-gray-800 dark:text-gray-50 hover:shadow-md focus:outline-none transition dark:hover:bg-gray-700 hover:bg-gray-300 dark:focus:bg-gray-700 focus:bg-gray-300"
                           role="menuitem"
                           onClick={() => {
+                            dispatch({ type: 'MODAL', payload: '_OFF_' })
                             dispatch({ type: 'EDIT', selectedWord: word })
                             console.log(word)
                             router.push('/edit')
@@ -105,7 +100,7 @@ export default function WordCard({ word }: { word: Word }) {
                             dispatch({ type: 'SELECT', payload: word })
                             dispatch({
                               type: 'MODAL',
-                              payload: { id: 'DELETE_MODAL' },
+                              payload: '_DELETE_MODAL_',
                             })
                           }}
                           className="text-sm w-full text-left px-3 rounded py-2 text-gray-800 dark:text-gray-50 hover:shadow-md focus:outline-none transition dark:hover:bg-gray-700 hover:bg-gray-300 dark:focus:bg-gray-700 focus:bg-gray-300"

@@ -8,7 +8,7 @@ export default function DeleteModal() {
   const { state, dispatch } = useContext(GlobalContext)
   const router = useRouter()
 
-  if (state.modal.id === 'DELETE_MODAL') {
+  if (state.modal === '_DELETE_MODAL_') {
     return (
       <>
         <div className="fixed z-10 inset-0 overflow-y-auto">
@@ -18,9 +18,7 @@ export default function DeleteModal() {
               aria-hidden="true"
             >
               <div
-                onClick={() =>
-                  dispatch({ type: 'MODAL', payload: { id: 'MODAL_OFF' } })
-                }
+                onClick={() => dispatch({ type: 'MODAL', payload: '_OFF_' })}
                 className="absolute inset-0 bg-gray-700 opacity-75"
               ></div>
             </div>
@@ -66,7 +64,7 @@ export default function DeleteModal() {
                 <button
                   onClick={async () => {
                     if (state.selectedWord) {
-                      dispatch({ type: 'MODAL', payload: { id: 'MODAL_OFF' } })
+                      dispatch({ type: 'MODAL', payload: '_OFF_' })
                       await deleteWordFetch(state.selectedWord.slug)
                       // Trigger a revalidation/update the cache when the promise resolves
                       router.pathname === '/' && trigger('/api/db')
@@ -79,9 +77,7 @@ export default function DeleteModal() {
                   Delete
                 </button>
                 <button
-                  onClick={() =>
-                    dispatch({ type: 'MODAL', payload: { id: 'MODAL_OFF' } })
-                  }
+                  onClick={() => dispatch({ type: 'MODAL', payload: '_OFF_' })}
                   className="px-4 py-2 mt-3 w-full sm:w-auto sm:mt-0 rounded-md border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 font-semibold text-gray-800 dark:text-gray-50 transition focus:outline-none hover:shadow-md focus:shadow-md focus:ring-2 focus:ring-gray-500 dark:focus:ring-gray-200"
                 >
                   Cancel

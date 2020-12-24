@@ -57,7 +57,7 @@ export type State = {
   hasMore: boolean
   pageNumber: number
   searchQuery: string
-  modal: { id: string }
+  modal: string
 }
 // | 'MODAL_OFF'
 // | 'USER_DROPDOWN'
