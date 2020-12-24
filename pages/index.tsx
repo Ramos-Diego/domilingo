@@ -38,15 +38,26 @@ export default function Home({ words }: { words: Word[] }) {
     [loading, state.hasMore]
   )
 
+  // We split the array into to for css purposes
+  // Each half represent a column
+  const firstHalf = state.words.slice(0, state.words.length / 2)
+  const secondHalf = state.words.slice(state.words.length / 2)
+
   return (
     <Layout>
       <Head>
         <title>Domilingo</title>
       </Head>
-      <div className="max-w-lg mx-auto grid justify-items-center items-start gap-1 sm:gap-3 md:max-w-screen-lg md:px-3 md:grid-cols-2 bg-gray-200 dark:bg-gray-800 text-gray-900 dark:text-gray-50">
-        <>
-          {state.words.map((word, idx) => {
-            if (state.words.length === idx + 1) {
+      <div className="mx-auto grid lg:flex justify-center gap-1 lg:gap-5 md:px-3 bg-gray-200 dark:bg-gray-800 text-gray-900 dark:text-gray-50">
+        <div className="flex flex-col gap-1 lg:gap-5 max-w-lg">
+          {firstHalf.map((word, idx) => {
+            return <WordCard word={word} key={idx} />
+          })}
+        </div>
+        <div className="flex flex-col gap-1 lg:gap-5 max-w-lg">
+          {secondHalf.map((word, idx) => {
+            // Detect the last card to load more when this is visible
+            if (secondHalf.length === idx + 1) {
               return (
                 <div ref={lastBookElementRef} key={idx}>
                   <WordCard word={word} />
@@ -56,9 +67,9 @@ export default function Home({ words }: { words: Word[] }) {
               return <WordCard word={word} key={idx} />
             }
           })}
-        </>
-        {loading && <div>Loading...</div>}
+        </div>
       </div>
+      {loading && <div className="text-center">Loading...</div>}
     </Layout>
   )
 }
