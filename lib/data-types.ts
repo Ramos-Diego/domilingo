@@ -58,6 +58,8 @@ export type State = {
   pageNumber: number
   searchQuery: string
   modal: string
+  wordsFirstHalf: Word[]
+  wordsSecondHalf: Word[]
 }
 // | 'MODAL_OFF'
 // | 'USER_DROPDOWN'

@@ -3,6 +3,7 @@ import { GlobalContext } from '../context/GlobalState'
 
 export default function Search() {
   const { state, dispatch } = useContext(GlobalContext)
+
   return (
     <input
       type="search"
@@ -15,7 +16,6 @@ export default function Search() {
         // Clear the words to only append the search results
         dispatch({ type: 'CLEAR' })
         dispatch({ type: 'SEARCH', payload: e.target.value })
-        dispatch({ type: 'PAGE_NUMBER', payload: 1 })
       }}
       className="w-full rounded-md font-semibold px-3 py-1 border-2 dark:border-gray-600 dark:bg-gray-900 transition hover:shadow-md dark:hover:border-gray-400 focus:shadow-md focus:outline-none focus:ring-1 focus:border-blue-700 dark:focus:border-blue-400 focus:ring-blue-700 dark:focus:ring-blue-400"
     />

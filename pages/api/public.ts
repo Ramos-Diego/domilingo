@@ -7,7 +7,6 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       try {
         const { db } = await connectToDatabase()
         if (req.query.q) {
-          const { page } = req.query
           // Search bar
           const arr = await db
             .collection('words')
@@ -21,8 +20,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
               },
               { projection: { _id: 0 } }
             )
-            .skip(+page > 0 ? (+page - 1) * 25 : 0)
-            .limit(25)
+            .limit(30)
             // Collation allows for case insentive sorting
             .collation({ locale: 'en' })
             .sort({ word: 1 })
@@ -37,8 +35,8 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
             .collection('words')
             .find({ approved: true }, { projection: { _id: 0 } })
             // https://docs.mongodb.com/manual/reference/method/cursor.skip/#pagination-example
-            .skip(+page > 0 ? (+page - 1) * 25 : 0)
-            .limit(25)
+            .skip(+page > 0 ? (+page - 1) * 30 : 0)
+            .limit(30)
             .toArray()
 
           // Shuffle words
