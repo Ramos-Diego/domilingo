@@ -6,6 +6,8 @@ const initialState: State = {
   selectedWord: undefined,
   editing: false,
   words: [],
+  wordsFirstHalf: [],
+  wordsSecondHalf: [],
   hasMore: false,
   pageNumber: 1,
   searchQuery: '',

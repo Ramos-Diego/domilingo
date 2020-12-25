@@ -9,7 +9,7 @@ const AppReducer = (state: State, action: any) => {
     case 'MODAL':
       return { ...state, modal: action.payload }
     case 'CLEAR':
-      return { ...state, words: [] }
+      return { ...state, words: [], wordsFirstHalf: [], wordsSecondHalf: [] }
     case 'SEARCH':
       return {
         ...state,
@@ -19,6 +19,14 @@ const AppReducer = (state: State, action: any) => {
       return {
         ...state,
         words: [...state.words, ...action.payload],
+        wordsFirstHalf: [
+          ...state.wordsFirstHalf,
+          ...action.payload.slice(0, action.payload.length / 2),
+        ],
+        wordsSecondHalf: [
+          ...state.wordsSecondHalf,
+          ...action.payload.slice(action.payload.length / 2),
+        ],
       }
     case 'HAS_MORE':
       return {
