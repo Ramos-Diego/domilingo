@@ -2,6 +2,10 @@
 
 A dictionary of Dominican slang.
 
+This project was used to practice CRUD operations with the MongoDB node driver and developing with Next.js. I plan to add some final touches and archive the project.
+
+The idea of creating a dictionary came from a `json` file containing many slang definitions that I found.
+
 ## Todo
 
 ### GENERAL
